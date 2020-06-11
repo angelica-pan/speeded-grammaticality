@@ -33,16 +33,30 @@ Template("mytable" , variable =>
         defaultText
             .center()
         ,
-        newButton("Start reading")
-            .print()
-            .wait()
-            .remove()
+        newImage("fixation_cross", "fixation_cross.png")
+            .size(300,300)
         ,
-        newController("DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
+        newCanvas(300, 310)
+            .add(0, 10, getImage("fixation_cross"))
             .print()
-            .log()
+        ,
+        newKey("continue", " ")
             .wait()
-            .remove()
+        ,
+        clear()
+        ,
+        // newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
+        //     .print()
+        //     .log()
+        //     .wait()
+        //     .remove()
+        // ,
+        newCanvas("s_display", 300, 300)
+            .add(0, 145, getController("dash"))
+            .log()
+            .print()
+        ,
+        clear()
         ,
         newText("judgment", "text here")
         .cssContainer({"width": "600px", "font-size": "150%", "height": "50px"})
