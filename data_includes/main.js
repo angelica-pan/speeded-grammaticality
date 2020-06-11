@@ -13,7 +13,7 @@ AddTable( "mytable" ,
     "Test,B,The mouse that the cat is chasing runs fast"
 )
 
-Template("myTable" , variable => 
+Template("mytable" , variable => 
     newTrial(
         newButton("Start reading")
             .print()
