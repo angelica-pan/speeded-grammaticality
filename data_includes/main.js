@@ -11,7 +11,7 @@ newButton("Start reading")
     .print()
     .wait()
     .remove()
-,
+//,
 // newController("DashedSentence", {s:"this is a test", "mode":"speeded acceptability", "display":"in place", "wordTime":200})
 //     .print()
 //     .log()
