@@ -49,6 +49,10 @@ Template("mytable" , variable =>
             .add(300, 200, getText("J"))
             .print()
             .log()
+        ,
+        newKey("grammaticality", "FJ")
+            .wait()
+            .log()
     )
 )
 .log("exp", variable.group)
