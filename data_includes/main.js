@@ -8,11 +8,19 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 AddTable( "mytable" ,
-    "exp,item,sentence\n"+
-    "test,1,According to the story Mary was found by John, and then Peter was too.\n"+
-    "test,2,Another test sentence\n"+
-    "vpe,1,The cat that is chasing the mouse runs fast\n"+
-    "vpe,2,The mouse that the cat is chasing runs fast"
+    "exp,item,sentence, question, answer_F, answer_J\n"+
+    "test,1,According to the story Mary was found by John, and then Peter was too., sample question,yes, no\n"+
+    "test,2,Another test sentence,,,\n"+
+    "vpe,1,The cat that is chasing the mouse runs fast,,,\n"+
+    "vpe,2,The mouse that the cat is chasing runs fast,,,"
+)
+
+newTrial(
+    newController("DashedSentence", {s: "The mouse that the cat that the dog is petting is hugging is happy"} )
+        .print()
+        .log()
+        .wait()
+        .remove()
 )
 
 Template("mytable" , variable => 
@@ -53,6 +61,34 @@ Template("mytable" , variable =>
         newKey("grammaticality", "FJ")
             .wait()
             .log()
+        ,
+        (variable.question?[newText("question", variable.question)
+            .cssContainer({"width": "600px", "font-size": "150%", "height": "50px"})
+        ,
+        newText("answer_F", variable.answer_F)
+            .before(newText("F)&nbsp;"))
+            .cssContainer({"width": "300px"})
+        ,
+        newText("answer_J", variable.answer_J)
+            .before(newText("J)&nbsp;"))
+            .cssContainer({"width": "300px"})
+        ,
+        newText("reminder", "Press the F or J key to select your answer")
+            .italic()
+            .cssContainer({"width": "600px"})
+        ,
+        newCanvas("q_display", 600, 300)
+            .add(0, 145, getText("question"))
+            .add(0, 200, getText("answer_F"))
+            .add(300, 200, getText("answer_J"))
+            .add(0, 250, getText("reminder"))
+            .print()
+            .log()
+        ,
+        newKey("q_response", "FJ")
+            .wait()
+            .log()
+        ]:null)
     )
 )
 .log("exp", variable.group)
