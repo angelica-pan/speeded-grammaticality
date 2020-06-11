@@ -9,13 +9,18 @@ var showProgressBar = false;                            // Don't show progress b
 ////////////////////////////////////////////////////////////////////////////////
 AddTable( "mytable" ,
     "exp,item,sentence,question,answer_F,answer_J\n"+
-    "test,1,According to the story Mary was found by John, and then Peter was too., sample question,yes, no\n"+
+    "test,1,According to the story Mary was found by John and then Peter was too., sample question,yes, no\n"+
     "test,2,Another test sentence,another question,left,right\n"+
     "vpe,1,The cat that is chasing the mouse runs fast,,,\n"+
     "vpe,2,The mouse that the cat is chasing runs fast,,,"
 )
 
 newTrial(
+	newButton("Start reading")
+        .print()
+        .wait()
+        .remove()
+    ,
     newController("DashedSentence", {s: "The mouse that the cat that the dog is petting is hugging is happy"} )
         .print()
         .log()
@@ -61,6 +66,8 @@ Template("mytable" , variable =>
         newKey("grammaticality", "FJ")
             .wait()
             .log()
+        ,
+        clear()
         ,
         (variable.question?[newText("question", variable.question)
             .cssContainer({"width": "600px", "font-size": "150%", "height": "50px"})
