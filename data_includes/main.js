@@ -4,14 +4,32 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Sequence(shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send")
+Sequence("practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send")
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// source .csv must have the following columns:
-	// "sentence", "question", "F_answer", "J_answer"
-// source .csv should have the following columns:
-	// "group", "condition", "item", "judgment", "correct_answer"
+// Custom button: creates button with blue background
+customButton = text  => 
+    newButton(text)
+        .center()
+        .css({"background-color":"lightblue"})
+        .print()
+        .wait()
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Post-practice items
+newTrial("post-practice",
+    newHtml("post-practice", "post-practice.html")
+        .settings.cssContainer({"width": "600px"})
+        .print()
+    ,
+    customButton("Click here to start the experiment")
+)
+
+// Trial template
+// source CSV must have the following columns: "sentence", "question", "F_answer", "J_answer"
+// source CSV should have the following columns: "group", "condition", "item", "judgment", "correct_answer"
 customTrial = label => variable => newTrial( label ,
     defaultText
         .center()
@@ -31,7 +49,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     // RSVP sentence
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
-        .cssContainer({"width":"600px", "height":"300px", "margin":"145px 0 0 300px", "font-size": "150%",})
+        .cssContainer({"width":"600px", "height":"300px", "margin":"300px 0 0 0", "font-size": "150%",})
         .log()
         .print()
         .wait()
@@ -91,6 +109,22 @@ customTrial = label => variable => newTrial( label ,
         .wait()
         .log()
     ]:null)
+    ,
+    clear()
+    ,
+    newText("next", "Press the spacebar to continue.")
+        .italic()
+        .cssContainer({"width": "300px"})
+    ,
+    // Conditional target word feedback 
+    (variable.feedback?[newCanvas(600, 300)
+        .add(0, 100, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
+        .add(0, 210, getText("next").cssContainer({"width": "600px"}))
+        .print()
+    ,
+    newKey(" ")
+        .wait()
+    ]:null)
 )
 .log("group",               variable.group)
 .log("condition",           variable.condition)
@@ -99,9 +133,10 @@ customTrial = label => variable => newTrial( label ,
 .log("FJ_correct",    	    variable.correct_answer)
 
 // test items
+Template("practice.csv",            customTrial("practice"))
 Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
-Template("test_good-fillers.csv",    customTrial("test_good-fillers"))
-Template("test_vpe.csv",        customTrial("test_vpe"))
+Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
+Template("test_vpe.csv",            customTrial("test_vpe"))
 
 // Send results
 PennController.SendResults("send");

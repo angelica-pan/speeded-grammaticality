@@ -1,0 +1,5 @@
+﻿item,condition,sentence,judgment,question,F_answer,J_answer,correct_answer,feedback
+1,practice,This is a practice sentence.,J,,,,,"Since ""This is a practice sentence"" is clearly a sentence of English, you should have pressed ""J"" for ""OK"""
+2,practice,"Boredom is an emotional state experienced when an individual is left without anything in particular to do, and not interested in their surroundings.",J,WHAT KIND OF STATE IS BOREDOM?,EMOTIONAL,PHYSICAL,F,"This is also a grammatically acceptable sentence of English, if a bit more complex than the first practice sentence. It was followed by a comprehension question."
+3,practice,May knows how many did John buy books.,F,,,,,"This sentence probably doesn't sound right - you would press ""F"" for NOT OK, even if you're not sure why it sounds off."
+4,practice,Meaning of life get a philosophical question concerning the significance of existence.,F,,,,,"This was also not a grammatically acceptable sentence of English, since ""Meaning of life get"" doesn't make any sense. You'll have to pay careful attention to the sentences."
