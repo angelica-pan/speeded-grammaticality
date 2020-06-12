@@ -1,0 +1,97 @@
+﻿group,item,condition,antecedent,voice,morphology,sentence,question,F_answer,J_answer,correct_answer
+A,1,active.match,active,match,Same,"According to the story, John found Mary, and then Peter did too.",DID PETER FIND MARY?,YES,NO,F
+B,1,active.mismatch,active,mismatch,Same,"According to the story, John found Mary, and then Peter was too.",DID PETER FIND MARY?,YES,NO,F
+C,1,passive.match,passive,match,Same,"According to the story, Mary was found by John, and then Peter was too.",DID PETER FIND MARY?,YES,NO,F
+D,1,passive.mismatch,passive,mismatch,Same,"According to the story, Mary was found by John, and then Peter did too.",DID PETER FIND MARY?,YES,NO,F
+B,2,active.match,active,match,Same,"In the report, the student talked to the teacher, and eventually the principal did too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+C,2,active.mismatch,active,mismatch,Same,"In the report, the student talked to the teacher, and eventually the principal was too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+D,2,passive.match,passive,match,Same,"In the report, the teacher was talked to by the student, and eventually the principal was too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+A,2,passive.mismatch,passive,mismatch,Same,"In the report, the teacher was talked to by the student, and eventually the principal did too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+D,3,active.match,active,match,Same,"After the affair was uncovered, Alyssa slapped Fred, and soon after Laura did too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+A,3,active.mismatch,active,mismatch,Same,"After the affair was uncovered, Alyssa slapped Fred, and soon after Laura was too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+B,3,passive.match,passive,match,Same,"After the affair was uncovered, Fred was slapped by Alyssa, and soon after Laura was too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+C,3,passive.mismatch,passive,mismatch,Same,"After the affair was uncovered, Fred was slapped by Alyssa, and soon after Laura did too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+C,4,active.match,active,match,Same,"In the interview, the director mentioned the actor, and apparently the cameraman did too.",,,,
+D,4,active.mismatch,active,mismatch,Same,"In the interview, the director mentioned the actor, and apparently the cameraman was too.",,,,
+A,4,passive.match,passive,match,Same,"In the interview, the actor was mentioned by the director, and apparently the cameraman was too.",,,,
+B,4,passive.mismatch,passive,mismatch,Same,"In the interview, the actor was mentioned by the director, and apparently the principal did too.",,,,
+A,5,active.match,active,match,Same,"During the bar fight, Martin punched James, and then Allen did too.",,,,
+B,5,active.mismatch,active,mismatch,Same,"During the bar fight, Martin punched James, and then Allen was too.",,,,
+C,5,passive.match,passive,match,Same,"During the bar fight, James was punched by Martin, and then Allen was too.",,,,
+D,5,passive.mismatch,passive,mismatch,Same,"During the bar fight, James was punched by Martin, and then Allen did too.",,,,
+B,6,active.match,active,match,Same,"As the article said, the singer loved the drummer, and surprisingly the guitarist did too.",,,,
+C,6,active.mismatch,active,mismatch,Same,"As the article said, the singer loved the drummer, and surprisingly the guitarist was too.",,,,
+D,6,passive.match,passive,match,Same,"As the article said, the drummer was loved by the singer, and surprisingly the guitarist was too.",,,,
+A,6,passive.mismatch,passive,mismatch,Same,"As the article said, the drummer was loved by the singer, and surprisingly the guitarist did too.",,,,
+D,7,active.match,active,match,Same,"For a long time, Gloria teased Danielle, and today Valerie did too.",WHEN DID THE TEASING START?,A WHILE AGO,RECENTLY,J
+A,7,active.mismatch,active,mismatch,Same,"For a long time, Gloria teased Danielle, and today Valerie was too.",WHEN DID THE TEASING START?,A WHILE AGO,RECENTLY,J
+B,7,passive.match,passive,match,Same,"For a long time, Danielle was teased by Gloria, and today Valerie was too.",WHEN DID THE TEASING START?,A WHILE AGO,RECENTLY,J
+C,7,passive.mismatch,passive,mismatch,Same,"For a long time, Danielle was teased by Gloria, and today Valerie did too.",WHEN DID THE TEASING START?,A WHILE AGO,RECENTLY,J
+C,8,active.match,active,match,Same,"At the factory, the seamstress helped the tailor, and then the dressmaker did too.",,,,
+D,8,active.mismatch,active,mismatch,Same,"At the factory, the seamstress helped the tailor, and then the dressmaker was too.",,,,
+A,8,passive.match,passive,match,Same,"At the factory, the tailor was helped by the seamstress, and then the dressmaker was too.",,,,
+B,8,passive.mismatch,passive,mismatch,Same,"At the factory, the tailor was helped by the seamstress, and then the dressmaker did too.",,,,
+A,9,active.match,active,match,Same,"Exhausted by their first marathon, Mark hugged Franny, and soon after Sally did too.",,,,
+B,9,active.mismatch,active,mismatch,Same,"Exhausted by their first marathon, Mark hugged Franny, and soon after Sally was too.",,,,
+C,9,passive.match,passive,match,Same,"Exhausted by their first marathon, Franny was hugged by Mark, and soon after Sally was too.",,,,
+D,9,passive.mismatch,passive,mismatch,Same,"Exhausted by their first marathon, Franny was hugged by Mark, and soon after Sally did too.",,,,
+B,10,active.match,active,match,Same,"At the artists' studio, the painter sketched the student, and apparently the sculptor did too.",,,,
+C,10,active.mismatch,active,mismatch,Same,"At the artists' studio, the painter sketched the student, and apparently the sculptor was too.",,,,
+D,10,passive.match,passive,match,Same,"At the artists' studio, the student was sketched by the painter, and apparently the sculptor was too.",,,,
+A,10,passive.mismatch,passive,mismatch,Same,"At the artists' studio, the student was sketched by the painter, and apparently the sculptor did too.",,,,
+D,11,active.match,active,match,Same,"During recess at the preschool, Jennifer picked on Calvin, and after Edward did too.",,,,
+A,11,active.mismatch,active,mismatch,Same,"During recess at the preschool, Jennifer picked on Calvin, and after Edward was too.",,,,
+B,11,passive.match,passive,match,Same,"During recess at the preschool, Calvin was picked on Jennifer, and after Edward was too.",,,,
+C,11,passive.mismatch,passive,mismatch,Same,"During recess at the preschool, Calvin was picked on Jennifer, and after Edward did too.",,,,
+C,12,active.match,active,match,Same,"At the hair parlor, the hairdresser flirted with the customer, and surprisingly the manager did too.",,,,
+D,12,active.mismatch,active,mismatch,Same,"At the hair parlor, the hairdresser flirted with the customer, and surprisingly the manager was too.",,,,
+A,12,passive.match,passive,match,Same,"At the hair parlor, the customer was flirted with the hairdresser, and surprisingly the manager was too.",,,,
+B,12,passive.mismatch,passive,mismatch,Same,"At the hair parlor, the customer was flirted with the hairdresser, and surprisingly the manager did too.",,,,
+A,13,active.match,active,match,Different,"At the children's concert, Clara sang to Daisy, and eventually Jenna did too.",WHERE DID CLARA SING?,AT A CONCERT,AT A BIRTHDAY PARTY,F
+B,13,active.mismatch,active,mismatch,Different,"At the children's concert, Clara sang to Daisy, and eventually Jenna was too.",WHERE DID CLARA SING?,AT A CONCERT,AT A BIRTHDAY PARTY,F
+C,13,passive.match,passive,match,Different,"At the children's concert, Daisy was sung to by Clara, and eventually Jenna was too.",WHERE DID CLARA SING?,AT A CONCERT,AT A BIRTHDAY PARTY,F
+D,13,passive.mismatch,passive,mismatch,Different,"At the children's concert, Daisy was sung to by Clara, and eventually Jenna did too.",WHERE DID CLARA SING?,AT A CONCERT,AT A BIRTHDAY PARTY,F
+B,14,active.match,active,match,Different,"In the classic fairy tale, the magician took the knight, and then the King did too.",,,,
+C,14,active.mismatch,active,mismatch,Different,"In the classic fairy tale, the magician took the knight, and then the King was too.",,,,
+D,14,passive.match,passive,match,Different,"In the classic fairy tale, the knight was taken by the magician, and then the King was too.",,,,
+A,14,passive.mismatch,passive,mismatch,Different,"In the classic fairy tale, the knight was taken by the magician, and then the King did too.",,,,
+D,15,active.match,active,match,Different,"Even though they were mad, Dan spoke to Alex, and eventually Kyle did too.",,,,
+A,15,active.mismatch,active,mismatch,Different,"Even though they were mad, Dan spoke to Alex, and eventually Kyle was too.",,,,
+B,15,passive.match,passive,match,Different,"Even though they were mad, Dan was spoken to by Alex, and eventually Kyle was too.",,,,
+C,15,passive.mismatch,passive,mismatch,Different,"Even though they were mad, Dan was spoken to by Alex, and eventually Kyle did too.",,,,
+C,16,active.match,active,match,Different,"In preparation for the conference, the professor wrote to the librarian, and just today the scientist did too.",WHAT WAS THE SCIENTIST PREPARING FOR?,AN INTERVIEW,A CONFERENCE,J
+D,16,active.mismatch,active,mismatch,Different,"In preparation for the conference, the professor wrote to the librarian, and just today the scientist was too.",WHAT WAS THE SCIENTIST PREPARING FOR?,AN INTERVIEW,A CONFERENCE,J
+A,16,passive.match,passive,match,Different,"In preparation for the conference, the librarian was written to by the professor, and just today the scientist was too.",WHAT WAS THE SCIENTIST PREPARING FOR?,AN INTERVIEW,A CONFERENCE,J
+B,16,passive.mismatch,passive,mismatch,Different,"In preparation for the conference, the librarian was written to by the professor, and just today the scientist did too.",WHAT WAS THE SCIENTIST PREPARING FOR?,AN INTERVIEW,A CONFERENCE,J
+A,17,active.match,active,match,Different,"After the Drivers Ed class, Abby drove Frank, and surprisingly Sloan did too.",,,,
+B,17,active.mismatch,active,mismatch,Different,"After the Drivers Ed class, Abby drove Frank, and surprisingly Sloan was too.",,,,
+C,17,passive.match,passive,match,Different,"After the Drivers Ed class, Frank was driven by Abby, and surprisingly Sloan was too.",,,,
+D,17,passive.mismatch,passive,mismatch,Different,"After the Drivers Ed class, Frank was driven by Abby, and surprisingly Sloan did too.",,,,
+B,18,active.match,active,match,Different,"For the med school party game, the doctor chose the surgeon, and predictably the nurse did too.",WAS THE SURGEON PICKED FOR THE GAME?,YES,NO,F
+C,18,active.mismatch,active,mismatch,Different,"For the med school party game, the doctor chose the surgeon, and predictably the nurse was too.",WAS THE SURGEON PICKED FOR THE GAME?,YES,NO,F
+D,18,passive.match,passive,match,Different,"For the med school party game, the surgeon was chose by the doctor, and predictably the nurse was too.",WAS THE SURGEON PICKED FOR THE GAME?,YES,NO,F
+A,18,passive.mismatch,passive,mismatch,Different,"For the med school party game, the surgeon was chose by the doctor, and predictably the nurse did too.",WAS THE SURGEON PICKED FOR THE GAME?,YES,NO,F
+D,19,active.match,active,match,Different,"During hide and seek, Eliott saw Mona, and eventually Lydia did too.",WHAT GAME WAS BEING PLAYED?,CHECKERS,HIDE AND SEEK,J
+A,19,active.mismatch,active,mismatch,Different,"During hide and seek, Eliott saw Mona, and eventually Lydia was too.",WHAT GAME WAS BEING PLAYED?,CHECKERS,HIDE AND SEEK,J
+B,19,passive.match,passive,match,Different,"During hide and seek, Mona was seen by Eliott, and eventually Lydia was too.",WHAT GAME WAS BEING PLAYED?,CHECKERS,HIDE AND SEEK,J
+C,19,passive.mismatch,passive,mismatch,Different,"During hide and seek, Mona was seen by Eliott, and eventually Lydia did too.",WHAT GAME WAS BEING PLAYED?,CHECKERS,HIDE AND SEEK,j
+C,20,active.match,active,match,Different,"At the busy restaurant, the cook ran into the waiter, and soon after the dishwasher did too.",,,,
+D,20,active.mismatch,active,mismatch,Different,"At the busy restaurant, the cook ran into the waiter, and soon after the dishwasher was too.",,,,
+A,20,passive.match,passive,match,Different,"At the busy restaurant, the waiter was run into by the cook, and soon after the dishwasher was too.",,,,
+B,20,passive.mismatch,passive,mismatch,Different,"At the busy restaurant, the waiter was run into by the cook, and soon after the dishwasher did too.",,,,
+A,21,active.match,active,match,Different,"At the chess tournament, Chloe beat Sam, and then Charlie did too.",WHAT KIND OF TOURNAMENT WAS IT?,CHESS,POKER,F
+B,21,active.mismatch,active,mismatch,Different,"At the chess tournament, Chloe beat Sam, and then Charlie was too.",WHAT KIND OF TOURNAMENT WAS IT?,CHESS,POKER,F
+C,21,passive.match,passive,match,Different,"At the chess tournament, Sam was beat by Chloe, and then Charlie was too.",WHAT KIND OF TOURNAMENT WAS IT?,CHESS,POKER,F
+D,21,passive.mismatch,passive,mismatch,Different,"At the chess tournament, Sam was beat by Chloe, and then Charlie did too.",WHAT KIND OF TOURNAMENT WAS IT?,CHESS,POKER,F
+B,22,active.match,active,match,Different,"At the mixed martial arts event, the wrestler threw the fighter, and then the boxer did too.",,,,
+C,22,active.mismatch,active,mismatch,Different,"At the mixed martial arts event, the wrestler threw the fighter, and then the boxer was too.",,,,
+D,22,passive.match,passive,match,Different,"At the mixed martial arts event, the fighter was thrown by the wrestler, and then the boxer was too.",,,,
+A,22,passive.mismatch,passive,mismatch,Different,"At the mixed martial arts event, the fighter was thrown by the wrestler, and then the boxer did too.",,,,
+D,23,active.match,active,match,Different,"In the middle of the night, Jane woke Stella, and soon after Connor did too.",,,,
+A,23,active.mismatch,active,mismatch,Different,"In the middle of the night, Jane woke Stella, and soon after Connor was too.",,,,
+B,23,passive.match,passive,match,Different,"In the middle of the night, Stella was woken by Jane, and soon after Connor was too.",,,,
+C,23,passive.mismatch,passive,mismatch,Different,"In the middle of the night, Stella was woken by Jane, and soon after Connor did too.",,,,
+C,24,active.match,active,match,Different,"At the chaotic pet store, the cat bit the dog, and sure enough the ferret did too.",,,,
+D,24,active.mismatch,active,mismatch,Different,"At the chaotic pet store, the cat bit the dog, and sure enough the ferret was too.",,,,
+A,24,passive.match,passive,match,Different,"At the chaotic pet store, the cat was bitten by the dog, and sure enough the ferret was too.",,,,
+B,24,passive.mismatch,passive,mismatch,Different,"At the chaotic pet store, the cat was bitten by the dog, and sure enough the ferret did too.",,,,

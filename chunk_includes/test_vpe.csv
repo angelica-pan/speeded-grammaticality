@@ -1,0 +1,17 @@
+﻿group,item,condition,antecedent,voice,morphology,sentence,question,F_answer,J_answer,correct_answer
+A,1,active.match,active,match,Same,"According to the story, John found Mary, and then Peter did too.",DID PETER FIND MARY?,YES,NO,F
+B,1,active.mismatch,active,mismatch,Same,"According to the story, John found Mary, and then Peter was too.",DID PETER FIND MARY?,YES,NO,F
+C,1,passive.match,passive,match,Same,"According to the story, Mary was found by John, and then Peter was too.",DID PETER FIND MARY?,YES,NO,F
+D,1,passive.mismatch,passive,mismatch,Same,"According to the story, Mary was found by John, and then Peter did too.",DID PETER FIND MARY?,YES,NO,F
+B,2,active.match,active,match,Same,"In the report, the student talked to the teacher, and eventually the principal did too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+C,2,active.mismatch,active,mismatch,Same,"In the report, the student talked to the teacher, and eventually the principal was too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+D,2,passive.match,passive,match,Same,"In the report, the teacher was talked to by the student, and eventually the principal was too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+A,2,passive.mismatch,passive,mismatch,Same,"In the report, the teacher was talked to by the student, and eventually the principal did too.",WHO DID THE STUDENT TALK TO?,ANOTHER STUDENT,THE TEACHER,J
+D,3,active.match,active,match,Same,"After the affair was uncovered, Alyssa slapped Fred, and soon after Laura did too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+A,3,active.mismatch,active,mismatch,Same,"After the affair was uncovered, Alyssa slapped Fred, and soon after Laura was too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+B,3,passive.match,passive,match,Same,"After the affair was uncovered, Fred was slapped by Alyssa, and soon after Laura was too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+C,3,passive.mismatch,passive,mismatch,Same,"After the affair was uncovered, Fred was slapped by Alyssa, and soon after Laura did too.",DID ALYSSA GET SLAPPED?,NO,YES,F
+C,4,active.match,active,match,Same,"In the interview, the director mentioned the actor, and apparently the cameraman did too.",,,,
+D,4,active.mismatch,active,mismatch,Same,"In the interview, the director mentioned the actor, and apparently the cameraman was too.",,,,
+A,4,passive.match,passive,match,Same,"In the interview, the actor was mentioned by the director, and apparently the cameraman was too.",,,,
+B,4,passive.mismatch,passive,mismatch,Same,"In the interview, the actor was mentioned by the director, and apparently the principal did too.",,,,
