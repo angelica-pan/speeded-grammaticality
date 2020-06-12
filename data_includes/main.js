@@ -4,7 +4,7 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Sequence("practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send")
+Sequence("welcome", "practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -17,6 +17,29 @@ customButton = text  =>
         .wait()
 
 ////////////////////////////////////////////////////////////////////////////////
+
+// Welcome/instructions
+newTrial("welcome",
+    newHtml("welcome", "welcome.html")
+        .settings.cssContainer({"width": "720px"})
+        .print()
+    ,
+    newText("next", "Press the spacebar to continue.")
+        .italic()
+        .center()
+        .print()
+    ,
+    newKey(" ")
+        .wait()
+    ,
+    clear()
+    ,
+    newHtml("instructions", "instructions.html")
+        .settings.cssContainer({"width": "720px"})
+        .print()
+    ,
+    customButton("Click here to continue")
+)
 
 // Post-practice items
 newTrial("post-practice",
@@ -50,7 +73,7 @@ customTrial = label => variable => newTrial( label ,
     // RSVP sentence
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         // .cssContainer({"width":"600px", "height":"300px", "margin":"300px 0 0 0", "font-size": "150%",})
-        .cssContainer({"margin":"150px 0 0 0", "font-size": "150%",})
+        .cssContainer({"margin":"100px 0 0 0", "font-size": "150%",})
         .log()
         .print()
         .wait()
@@ -119,7 +142,7 @@ customTrial = label => variable => newTrial( label ,
         .cssContainer({"width": "300px"})
     ,
     (variable.feedback?[newCanvas(600, 300)
-        .add(0, 150, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
+        .add(0, 145, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
         .add(0, 210, getText("next").cssContainer({"width": "600px"}))
         .print()
     ,
@@ -138,6 +161,16 @@ Template("practice.csv",            customTrial("practice"))
 Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
+
+// End of experiment confirmation
+newTrial("confirmation",
+    newText("Thank you for participating! You may now exit the window.")
+        .center()
+        .print()
+    ,
+    newButton("void")
+        .wait()
+)
 
 // Send results
 PennController.SendResults("send");
