@@ -1,4 +1,4 @@
-﻿item,condition,antecedent,voice,morphology,sentence,judgment,question,F_answer,J_answer,correct_answer
+﻿item,condition,antecedent,voice,morphology,sentence,correct_judgment,question,F_answer,J_answer,correct_answer
 1,good,active,match,Same,"In the morning, Jackson got a blackberry pie for breakfast from a local diner.",J,WHAT KIND OF PIE DID HE GET?,BLACKBERRY,PUMPKIN,F
 2,good,active,mismatch,Same,"Although he wasn't a hoarder, Quentin had a lot of expensive collectibles.",J,WERE THE COLLECTIBLES VALUABLE?,NO,YES,J
 3,good,passive,match,Same,"For lunch, Jane bought a sandwich, and eventually Freddie did, too.",J,WHAT DID FREDDIE HAVE FOR LUNCH?,A SANDWICH,A SALAD,F

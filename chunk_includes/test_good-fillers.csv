@@ -1,4 +1,4 @@
-﻿item,condition,sentence,judgment,question,F_answer,J_answer,correct_answer
+﻿item,condition,sentence,correct_judgment,question,F_answer,J_answer,correct_answer
 1,good,"In the morning, Jackson got a blackberry pie for breakfast from a local diner.",J,WHAT KIND OF PIE DID HE GET?,BLACKBERRY,PUMPKIN,F
 2,good,"Although he wasn't a hoarder, Quentin had a lot of expensive collectibles.",J,WERE THE COLLECTIBLES VALUABLE?,NO,YES,J
 3,good,"For lunch, Jane bought a sandwich, and eventually Freddie did, too.",J,WHAT DID FREDDIE HAVE FOR LUNCH?,A SANDWICH,A SALAD,F

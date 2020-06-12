@@ -129,7 +129,7 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    newKey("q_response", "FJ")
+    newKey("answer", "FJ")
         .wait()
         .log()
     ]:null)
@@ -150,11 +150,11 @@ customTrial = label => variable => newTrial( label ,
         .wait()
     ]:null)
 )
-.log("group",               variable.group)
-.log("condition",           variable.condition)
-.log("item",                variable.item)
-.log("judgment",    	    variable.judgment)
-.log("FJ_correct",    	    variable.correct_answer)
+.log("group",               	variable.group)
+.log("condition",           	variable.condition)
+.log("item",                	variable.item)
+.log("correct_judgment",    	variable.correct_judgment)
+.log("correct_answer",    	    variable.correct_answer)
 
 // test items
 Template("practice.csv",            customTrial("practice"))
