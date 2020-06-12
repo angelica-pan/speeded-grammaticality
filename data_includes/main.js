@@ -3,9 +3,15 @@ PennController.ResetPrefix(null);                       // Initiates PennControl
 var showProgressBar = false;                            // Don't show progress bar
 
 ////////////////////////////////////////////////////////////////////////////////
+
 Sequence(shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send")
+
 ////////////////////////////////////////////////////////////////////////////////
 
+// source .csv must have the following columns:
+	// "sentence", "question", "F_answer", "J_answer"
+// source .csv should have the following columns:
+	// "group", "condition", "item", "judgment", "correct_answer"
 customTrial = label => variable => newTrial( label ,
     defaultText
         .center()
@@ -33,7 +39,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     // Grammaticality Judgment
     newText("placeholder", "+++++++")
-    .cssContainer({"width": "600px", "height": "50px","font-size": "150%",})
+    .cssContainer({"width": "600px", "height": "50px","font-size": "150%"})
     ,
     // F for not okay, J for okay
     newText("not_okay", "F)&nbsp; NOT OKAY")
@@ -59,7 +65,7 @@ customTrial = label => variable => newTrial( label ,
     // Comprehension question
     ,
     (variable.question?[newText("question", variable.question)
-        .cssContainer({"width": "600px", "height": "50px", "font-size": "150%",})
+        .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
     ,
     newText("F_answer", variable.F_answer)
         .before(newText("F)&nbsp;"))
@@ -89,11 +95,12 @@ customTrial = label => variable => newTrial( label ,
 .log("group",               variable.group)
 .log("condition",           variable.condition)
 .log("item",                variable.item)
+.log("judgment",    	    variable.judgment)
 .log("FJ_correct",    	    variable.correct_answer)
 
 // test items
-Template("test_fillers.csv",    customTrial("test_bad-fillers"))
-Template("test_fillers.csv",    customTrial("test_good-fillers"))
+Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
+Template("test_good-fillers.csv",    customTrial("test_good-fillers"))
 Template("test_vpe.csv",        customTrial("test_vpe"))
 
 // Send results
