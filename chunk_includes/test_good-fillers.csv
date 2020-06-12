@@ -1,0 +1,5 @@
+﻿item,condition,sentence,judgment,question,F_answer,J_answer,correct_answer
+1,good,"In the morning, Jackson got a blackberry pie for breakfast from a local diner.",J,WHAT KIND OF PIE DID HE GET?,BLACKBERRY,PUMPKIN,F
+2,good,"Although he wasn't a hoarder, Quentin had a lot of expensive collectibles.",J,WERE THE COLLECTIBLES VALUABLE?,NO,YES,J
+3,good,"For lunch, Jane bought a sandwich, and eventually Freddie did, too.",J,WHAT DID FREDDIE HAVE FOR LUNCH?,A SANDWICH,A SALAD,F
+4,good,"Apparently, the therapist thought Charlie still loved Maggie, and Sam did, too.",J,WHO LOVED MAGGIE?,ONLY CHARLIE,CHARLIE AND SAM,J

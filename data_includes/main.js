@@ -3,8 +3,7 @@ PennController.ResetPrefix(null);                       // Initiates PennControl
 var showProgressBar = false;                            // Don't show progress bar
 
 ////////////////////////////////////////////////////////////////////////////////
-Sequence("test_fillers", "test_vpe", "send")
-
+Sequence(shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send")
 ////////////////////////////////////////////////////////////////////////////////
 
 customTrial = label => variable => newTrial( label ,
@@ -26,7 +25,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     // RSVP sentence
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
-        .cssContainer({"width":"600px", "height":"300px", "position":"absolute", "top":"50%", "left":"50%", "margin":"-150px 0 0 -300px", "font-size": "150%",})
+        .cssContainer({"width":"600px", "height":"300px", "margin":"145px 0 0 300px", "font-size": "150%",})
         .log()
         .print()
         .wait()
@@ -45,14 +44,14 @@ customTrial = label => variable => newTrial( label ,
         .italic()
         .cssContainer({"width": "300px"})
     ,
-    newCanvas("judgment", 600, 300)
+    newCanvas("j_display", 600, 300)
         .add(0, 145, getText("placeholder"))
         .add(0, 200, getText("not_okay"))
         .add(300, 200, getText("okay"))
         .print()
         .log()
     ,
-    newKey("grammaticality", "FJ")
+    newKey("judgment", "FJ")
         .wait()
         .log()
     ,
@@ -93,8 +92,9 @@ customTrial = label => variable => newTrial( label ,
 .log("FJ_correct",    	    variable.correct_answer)
 
 // test items
-Template("test_fillers.csv", customTrial("test_fillers"))
-Template("test_vpe.csv", customTrial("test_vpe"))
+Template("test_fillers.csv",    customTrial("test_bad-fillers"))
+Template("test_fillers.csv",    customTrial("test_good-fillers"))
+Template("test_vpe.csv",        customTrial("test_vpe"))
 
 // Send results
 PennController.SendResults("send");

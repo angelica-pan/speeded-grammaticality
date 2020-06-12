@@ -1,0 +1,16 @@
+﻿item,condition,antecedent,voice,morphology,sentence,judgment,question,F_answer,J_answer,correct_answer
+1,good,active,match,Same,"In the morning, Jackson got a blackberry pie for breakfast from a local diner.",J,WHAT KIND OF PIE DID HE GET?,BLACKBERRY,PUMPKIN,F
+2,good,active,mismatch,Same,"Although he wasn't a hoarder, Quentin had a lot of expensive collectibles.",J,WERE THE COLLECTIBLES VALUABLE?,NO,YES,J
+3,good,passive,match,Same,"For lunch, Jane bought a sandwich, and eventually Freddie did, too.",J,WHAT DID FREDDIE HAVE FOR LUNCH?,A SANDWICH,A SALAD,F
+4,good,passive,mismatch,Same,"Apparently, the therapist thought Charlie still loved Maggie, and Sam did, too.",J,WHO LOVED MAGGIE?,ONLY CHARLIE,CHARLIE AND SAM,J
+5,good,active,match,Same,"At the restaurant, the construction worker bitterly ordered a tea, not a beer, as he was on a diet.",J,WHAT DID THE CONSTRUCTION WORKER WANT?,A BEER,A TEA,F
+6,good,active,mismatch,Same,"When Marina signed up for yoga classes in the morning, so did her boyfriend.",J,,,,
+7,good,passive,match,Same,"Recently, I started putting cream in my coffee, and apparently you do, too.",J,DO WE DRINK OUR COFFEE BLACK?,YES,NO,J
+8,good,passive,mismatch,Same,"It seems that Janet first tried to paddle a canoe, and then tried paddling a kayak. ",J,,,,
+9,good,active,match,Same,"At the zoo, the girl was fascinated by the kangaroos, and her brother was scared of the snakes. ",J,WHO WAS SCARED?,THE BROTHER,THE GIRL,F
+10,good,active,mismatch,Same,"After the trial, the lawyer threatened the judge, and then the defendant tried to punch him.",J,WHO DID THE DEFENDANT TRY TO PUNCH?,THE LAWYER,THE JUDGE,J
+11,good,passive,match,Same,"During the recording session, the singer played the piano, and the musicians cheered, too.",J,,,,
+12,good,passive,mismatch,Same,"The man started cooking a meal, after watching a few videos online.",J,,,,
+13,good,active,match,Same,My friends Lana and Drew bought a boat and will start restoring it soon.,J,WHAT WILL MY FRIENDS DO WITH THE BOAT? ,RESTORE IT,SAIL IT,F
+14,good,active,mismatch,Same,"For his birthday, Greg tried hiring a magican for his son, but he was far too old.",J,WHO WAS TOO OLD?,GREG,GREG'S SON,J
+15,good,passive,match,Same,"My cousin Alex aced every class he took in college, except for Biology.",J,WAS ALEX GENERALLY A GOOD STUDENT?,YES,NO,F
