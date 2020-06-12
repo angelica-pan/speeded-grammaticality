@@ -21,6 +21,7 @@ Template("mytable" , variable =>
         defaultText
             .center()
         ,
+        // Rest screen in between trials (press space to continue)
         newImage("fixation_cross", "fixation_cross.png")
             .size(300,300)
         ,
@@ -33,29 +34,31 @@ Template("mytable" , variable =>
         ,
         clear()
         ,
+        // RSVP sentence
         newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":500})
-            .cssContainer({"width": "600px", "height": "300px", "padding": "145px 0", "font-size": "150%",})
+            .cssContainer({"width":"600px", "height":"300px", "position":"absolute", "top":"50%", "left":"50%", "margin":"-150px 0 0 -300px", "font-size": "150%",})
             .log()
             .print()
             .wait()
             .remove()
         ,
-        newText("judgment", "text here")
+        // Grammaticality Judgment
+        newText("placeholder", "+++++++")
         .cssContainer({"width": "600px", "height": "50px","font-size": "150%",})
         ,
         // F for not okay, J for okay
-        newText("F", "press F for not okay")
+        newText("not_okay", "F)&nbsp; NOT OKAY")
             .italic()
             .cssContainer({"width": "300px"})
         ,
-        newText("J", "press J for okay")
+        newText("okay", "J)&nbsp; OKAY")
             .italic()
             .cssContainer({"width": "300px"})
         ,
-        newCanvas("q_display", 600, 300)
-            .add(0, 145, getText("judgment"))
-            .add(0, 200, getText("F"))
-            .add(300, 200, getText("J"))
+        newCanvas("judgment", 600, 300)
+            .add(0, 145, getText("placeholder"))
+            .add(0, 200, getText("not_okay"))
+            .add(300, 200, getText("okay"))
             .print()
             .log()
         ,
@@ -64,6 +67,7 @@ Template("mytable" , variable =>
             .log()
         ,
         clear()
+        // Comprehension question
         ,
         (variable.question?[newText("question", variable.question)
             .cssContainer({"width": "600px", "height": "50px", "font-size": "150%",})
