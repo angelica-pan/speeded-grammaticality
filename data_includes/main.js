@@ -15,18 +15,6 @@ AddTable( "mytable" ,
     "vpe,2,The mouse that the cat is chasing runs fast,,,"
 )
 
-newTrial(
-	newButton("Start reading")
-        .print()
-        .wait()
-        .remove()
-    ,
-    newController("DashedSentence", {s: "The mouse that the cat that the dog is petting is hugging is happy"} )
-        .print()
-        .log()
-        .wait()
-        .remove()
-)
 
 Template("mytable" , variable => 
     newTrial(
@@ -46,14 +34,14 @@ Template("mytable" , variable =>
         clear()
         ,
         newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":500})
-            .cssContainer({"width": "600px", "height": "300px", "padding": "127px 0"})
+            .cssContainer({"width": "600px", "height": "300px", "padding": "145px 0", "font-size": "150%",})
             .log()
             .print()
             .wait()
             .remove()
         ,
         newText("judgment", "text here")
-        .cssContainer({"width": "600px", "height": "50px"})
+        .cssContainer({"width": "600px", "height": "50px","font-size": "150%",})
         ,
         // F for not okay, J for okay
         newText("F", "press F for not okay")
@@ -65,7 +53,7 @@ Template("mytable" , variable =>
             .cssContainer({"width": "300px"})
         ,
         newCanvas("q_display", 600, 300)
-            .add(0, 150, getText("judgment"))
+            .add(0, 145, getText("judgment"))
             .add(0, 200, getText("F"))
             .add(300, 200, getText("J"))
             .print()
@@ -78,7 +66,7 @@ Template("mytable" , variable =>
         clear()
         ,
         (variable.question?[newText("question", variable.question)
-            .cssContainer({"width": "600px", "height": "50px"})
+            .cssContainer({"width": "600px", "height": "50px", "font-size": "150%",})
         ,
         newText("answer_F", variable.answer_F)
             .before(newText("F)&nbsp;"))
@@ -93,7 +81,7 @@ Template("mytable" , variable =>
             .cssContainer({"width": "600px"})
         ,
         newCanvas("q_display", 600, 300)
-            .add(0, 150, getText("question"))
+            .add(0, 145, getText("question"))
             .add(0, 200, getText("answer_F"))
             .add(300, 200, getText("answer_J"))
             .add(0, 250, getText("reminder"))
