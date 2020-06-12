@@ -73,7 +73,7 @@ customTrial = label => variable => newTrial( label ,
     // RSVP sentence
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         // .cssContainer({"width":"600px", "height":"300px", "margin":"300px 0 0 0", "font-size": "150%",})
-        .cssContainer({"margin":"100px 0 0 0", "font-size": "150%",})
+        .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
         .log()
         .print()
         .wait()
@@ -143,7 +143,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     (variable.feedback?[newCanvas(600, 300)
         .add(0, 145, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
-        .add(0, 210, getText("next").cssContainer({"width": "600px"}))
+        .add(0, 200, getText("next").cssContainer({"width": "600px"}))
         .print()
     ,
     newKey(" ")
