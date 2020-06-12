@@ -49,7 +49,8 @@ customTrial = label => variable => newTrial( label ,
     ,
     // RSVP sentence
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
-        .cssContainer({"width":"600px", "height":"300px", "margin":"300px 0 0 0", "font-size": "150%",})
+        // .cssContainer({"width":"600px", "height":"300px", "margin":"300px 0 0 0", "font-size": "150%",})
+        .cssContainer({"margin":"150px 0 0 0", "font-size": "150%",})
         .log()
         .print()
         .wait()
@@ -99,8 +100,8 @@ customTrial = label => variable => newTrial( label ,
     ,
     newCanvas("q_display", 600, 300)
         .add(0, 145, getText("question"))
-        .add(0, 200, getText("answer_F"))
-        .add(300, 200, getText("answer_J"))
+        .add(0, 200, getText("F_answer"))
+        .add(300, 200, getText("J_answer"))
         .add(0, 250, getText("reminder"))
         .print()
         .log()
@@ -111,14 +112,14 @@ customTrial = label => variable => newTrial( label ,
     ]:null)
     ,
     clear()
+    // Conditional target word feedback 
     ,
     newText("next", "Press the spacebar to continue.")
         .italic()
         .cssContainer({"width": "300px"})
     ,
-    // Conditional target word feedback 
     (variable.feedback?[newCanvas(600, 300)
-        .add(0, 100, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
+        .add(0, 150, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
         .add(0, 210, getText("next").cssContainer({"width": "600px"}))
         .print()
     ,
