@@ -46,11 +46,11 @@ Template("mytable" , variable =>
         clear()
         ,
         newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":500})
-            .cssContainer({"width": "600px", "height": "300px", "padding": "122px 0"})
+            .cssContainer({"width": "600px", "height": "300px", "padding": "127px 0"})
             .log()
             .print()
-        ,
-        clear()
+            .wait()
+            .remove()
         ,
         newText("judgment", "text here")
         .cssContainer({"width": "600px", "height": "50px"})
@@ -65,7 +65,7 @@ Template("mytable" , variable =>
             .cssContainer({"width": "300px"})
         ,
         newCanvas("q_display", 600, 300)
-            .add(0, 145, getText("judgment"))
+            .add(0, 150, getText("judgment"))
             .add(0, 200, getText("F"))
             .add(300, 200, getText("J"))
             .print()
@@ -93,7 +93,7 @@ Template("mytable" , variable =>
             .cssContainer({"width": "600px"})
         ,
         newCanvas("q_display", 600, 300)
-            .add(0, 145, getText("question"))
+            .add(0, 150, getText("question"))
             .add(0, 200, getText("answer_F"))
             .add(300, 200, getText("answer_J"))
             .add(0, 250, getText("reminder"))
