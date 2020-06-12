@@ -45,17 +45,15 @@ Template("mytable" , variable =>
         ,
         clear()
         ,
-        newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
-        ,
-        newCanvas("s_display", 300, 300)
-            .add(0, 145, getController("dash"))
+        newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":500})
+            .cssContainer({"width": "600px", "height": "300px", "padding": "122px 0"})
             .log()
             .print()
         ,
         clear()
         ,
         newText("judgment", "text here")
-        .cssContainer({"width": "600px", "font-size": "150%", "height": "50px"})
+        .cssContainer({"width": "600px", "height": "50px"})
         ,
         // F for not okay, J for okay
         newText("F", "press F for not okay")
@@ -80,7 +78,7 @@ Template("mytable" , variable =>
         clear()
         ,
         (variable.question?[newText("question", variable.question)
-            .cssContainer({"width": "600px", "font-size": "150%", "height": "50px"})
+            .cssContainer({"width": "600px", "height": "50px"})
         ,
         newText("answer_F", variable.answer_F)
             .before(newText("F)&nbsp;"))
