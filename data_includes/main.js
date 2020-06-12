@@ -45,12 +45,8 @@ Template("mytable" , variable =>
         ,
         clear()
         ,
-        // newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
-        //     .print()
-        //     .log()
-        //     .wait()
-        //     .remove()
-        // ,
+        newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
+        ,
         newCanvas("s_display", 300, 300)
             .add(0, 145, getController("dash"))
             .log()
