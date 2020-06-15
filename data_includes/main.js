@@ -71,7 +71,7 @@ customTrial = label => variable => newTrial( label ,
     clear()
     ,
     // RSVP sentence
-    newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
+    newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200, "wordPauseTime":50})
         // .cssContainer({"width":"600px", "height":"300px", "margin":"300px 0 0 0", "font-size": "150%",})
         .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
         .log()
@@ -92,16 +92,27 @@ customTrial = label => variable => newTrial( label ,
         .italic()
         .cssContainer({"width": "300px"})
     ,
-    newCanvas("j_display", 600, 300)
+    newCanvas("j_display", 600, 600)
         .add(0, 145, getText("placeholder"))
-        .add(0, 200, getText("not_okay"))
-        .add(300, 200, getText("okay"))
+        .add(0, 550, getText("not_okay"))
+        .add(300, 550, getText("okay"))
         .print()
         .log()
+    ,
+    newTimer("hurry", 3000)
+        .start()
     ,
     newKey("judgment", "FJ")
         .wait()
         .log()
+    ,
+    getKey("judgment")
+        .test.pressed("FJ")
+        .success(newText("success", "Good job!").print() )
+        .failure(newText("failure", "Too slow...").print() )
+    ,
+    getKey("continue")
+        .wait()
     ,
     clear()
     // Comprehension question
@@ -121,11 +132,11 @@ customTrial = label => variable => newTrial( label ,
         .italic()
         .cssContainer({"width": "600px"})
     ,
-    newCanvas("q_display", 600, 300)
+    newCanvas("q_display", 600, 600)
         .add(0, 145, getText("question"))
         .add(0, 200, getText("F_answer"))
         .add(300, 200, getText("J_answer"))
-        .add(0, 250, getText("reminder"))
+        .add(0, 550, getText("reminder"))
         .print()
         .log()
     ,
@@ -141,9 +152,9 @@ customTrial = label => variable => newTrial( label ,
         .italic()
         .cssContainer({"width": "300px"})
     ,
-    (variable.feedback?[newCanvas(600, 300)
+    (variable.feedback?[newCanvas(600, 500)
         .add(0, 145, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
-        .add(0, 200, getText("next").cssContainer({"width": "600px"}))
+        .add(0, 550, getText("next").cssContainer({"width": "600px"}))
         .print()
     ,
     newKey(" ")
