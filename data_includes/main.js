@@ -108,23 +108,21 @@ customTrial = label => variable => newTrial( label ,
     	.log()
     	.wait()
     ,
-    clear()
-    ,
     newText("success", "too slow...")
 		.cssContainer({"margin":"145px 0 0 0"})
-    ,
-    newText("fail", "good job")
-    	.cssContainer({"margin":"100px 0 0 0"})
-    ,
-    getTimer("window")
-    	.test.ended()
-    	.success(getText("success").print())
-    	.failure(getText("fail").print())
-    ,
-    getKey("continue")
-        .wait()
+//     ,
+//     newText("fail", "good job")
+//     	.cssContainer({"margin":"145px 0 0 0"})
     ,
     clear()
+	,
+    getTimer("window")
+    	.test.ended()
+    	.success(
+    		getText("success").print(),
+    		getKey("continue").wait(),
+    		clear()
+    	)
 	,
     // Comprehension question
     (variable.question?[newText("question", variable.question)
