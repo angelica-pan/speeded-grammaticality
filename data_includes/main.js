@@ -20,8 +20,9 @@ customButton = text  =>
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
 	var n = 5 ;
+	var experiment = ["test_vpe", "test_good-fillers", "test_bad-fillers"] ;
     for (var i = 0; i < ro.length; ++i) {
-        if (i % n == (n-1)) {
+        if ((i % n == (n-1)) && (experiment.includes(r[i].type))) {
             // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
             ro[i].push(new DynamicElement(
     			"PennController",
@@ -59,7 +60,7 @@ function modifyRunningOrder(ro) {
     					.print()
 					,
 					customButton("Click here to continue")
-						.cssContainer({"margin":"15px 0 0 0", "width":"600px"})
+						.cssContainer({"margin":"50px 0 0 0", "width":"600px"})
 					,
 					// reset [score] and [outOf] variables to 0
 					getVar("score").set(v=>0)
