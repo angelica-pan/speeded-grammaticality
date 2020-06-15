@@ -4,8 +4,27 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//Sequence("welcome", "practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send", "confirmation")
-Sequence("practice", "end", "send", "confirmation")
+// source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
+function modifyRunningOrder(ro) {
+    for (var i = 0; i < ro.length; ++i) {
+        if (i % 3 == 0) {
+            // Passing 'true' as the third argument casues the results from this controller
+            // to be omitted from the results file. (Though in fact, the Message controller
+            // does not add any results in any case.)
+            ro[i].push(new DynamicElement(
+    			"PennController",
+   		 		newTrial(
+       				newButton("Hello world").print().wait()
+    			),
+    			false
+			));
+        }
+    }
+    return ro;
+}
+    
+//Sequence("welcome", "practice", "post-practice", rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe"), "send", "confirmation")
+Sequence(modifyRunningOrder(rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe")), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -195,15 +214,7 @@ newTrial("end",
 		.settings.cssContainer({"width": "720px"})
 		.print()
 	,
-	newText("next", "Press the spacebar to continue.")
-        .italic()
-        .center()
-        .print()
-    ,
-    newKey(" ")
-        .wait()
-    ,
-    clear()
+    customButton("Click here to continue")
     ,
     newHtml("exit_form", "exit.html")
         .log()
