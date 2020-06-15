@@ -1,5 +1,5 @@
 PennController.ResetPrefix(null);                       // Initiates PennController
-// PennController.DebugOff()
+PennController.DebugOff()
 var showProgressBar = false;                            // Don't show progress bar
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ customButton = text  =>
 // Separates items into blocks of [n] trials and adds newTrial("break") in between each block
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
-	var n = 5 ;
+	var n = 8 ;
     for (var i = 0; i < ro.length; ++i) {
         if (i % n == (n-1)) {
             // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
@@ -73,10 +73,7 @@ function modifyRunningOrder(ro) {
     }
     return ro;
 }
-// function modifyRunningOrder(ro) {
-//     return new modifyRunningOrder(ro);
-// }
-  
+
 // Testing sequences  
 // Sequence(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send")
 
