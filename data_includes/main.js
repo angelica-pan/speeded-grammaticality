@@ -73,9 +73,9 @@ function modifyRunningOrder(ro) {
     }
     return ro;
 }
-function modifyRunningOrder(ro) {
-    return new modifyRunningOrder(ro);
-}
+// function modifyRunningOrder(ro) {
+//     return new modifyRunningOrder(ro);
+// }
   
 // Testing sequences  
 // Sequence(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send")
