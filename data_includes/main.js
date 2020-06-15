@@ -52,8 +52,9 @@ newTrial("post-practice",
 )
 
 // Trial template
-// source CSV must have the following columns: "sentence", "question", "F_answer", "J_answer"
-// source CSV should have the following columns: "group", "condition", "item", "judgment", "correct_answer"
+// source CSV must have the following columns: [sentence]
+// source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
+// source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
     defaultText
         .center()
@@ -72,7 +73,6 @@ customTrial = label => variable => newTrial( label ,
     clear()
     ,
     // RSVP sentence
-    //newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200, "wordPauseTime":50})
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
         .log()
@@ -100,6 +100,8 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
+    // Create [3000]ms timer. If participant presses F/J key while timer is still running, continue. 
+    // Otherwise, display newText("tooSlow")
     newTimer("window", 3000)
     	.log()
         .start()
@@ -108,23 +110,25 @@ customTrial = label => variable => newTrial( label ,
     	.log()
     	.wait()
     ,
-    newText("success", "too slow...")
-		.cssContainer({"margin":"145px 0 0 0"})
-//     ,
-//     newText("fail", "good job")
-//     	.cssContainer({"margin":"145px 0 0 0"})
+    newText("tooSlow", "Too slow...")
+		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+    ,
+    newText("next", "Press the spacebar to continue.")
+    	.italic()
+    	.cssContainer({"margin":"350px 0 0 0", "width":"600px"})
     ,
     clear()
 	,
     getTimer("window")
-    	.test.ended()
-    	.success(
-    		getText("success").print(),
+    	.test.running()
+    	.failure(
+    		getText("tooSlow").print(),
+    		getText("next").print(),
     		getKey("continue").wait(),
     		clear()
     	)
 	,
-    // Comprehension question
+    // Comprehension question (only displays if value in source CSV's [question] column is non-empty)
     (variable.question?[newText("question", variable.question)
         .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
     ,
@@ -154,17 +158,15 @@ customTrial = label => variable => newTrial( label ,
     ]:null)
     ,
     clear()
-    // Conditional target word feedback 
+    // Feedback (only displays if value in source CSV's [feedback] column is non-empty)
     ,
-    newText("next", "Press the spacebar to continue.")
-        .italic()
-        .cssContainer({"width": "300px"})
-    ,
-    (variable.feedback?[newCanvas(600, 400)
-        .add(0, 145, newText(variable.feedback).bold().cssContainer({"width": "600px"}).center())
-        .add(0, 350, getText("next").cssContainer({"width": "600px"}))
-        .print()
-    ,
+    (variable.feedback?[newText(variable.feedback)
+    	.bold()
+		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+		.print()
+	,
+	getText("next").print()
+	,
     newKey(" ")
         .wait()
     ]:null)
