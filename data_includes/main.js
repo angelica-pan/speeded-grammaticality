@@ -84,20 +84,20 @@ newTrial("post-practice",
     customButton("Click here to start the experiment")
 )
 
-// Score variable
-// newVar("score", 0)
-// 	.global()
-
 // Score trial
 newTrial("score",
     newVar("score").global()
+    newVar("outOf").global()
     ,
-    newText("Your score on the recall task was: ")
-        .after(newText("").text(getVar("score")))
-        .log()
-        .print()
-	,
+	newText("accuracy", "Comprehension question accuracy: ")
+    	.after(newText("").text(getVar("score")))
+   		.after(newText("/"))
+    	.after(newText("").text(getVar("outOf")))
+    	.log()
+    	.print()
+    ,
 	customButton("Click here to continue")
+	
 )
 
 // Trial template
@@ -106,6 +106,7 @@ newTrial("score",
 // source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
 	newVar("score", 0).global()
+	newVar("outOf", 0).global()
 	,
     defaultText
         .center()
@@ -211,8 +212,13 @@ customTrial = label => variable => newTrial( label ,
     newKey("answer", "FJ")
         .log()
         .callback(
-			getKey("answer").test.pressed(variable.correct_answer)
-			.success(getVar("score").set(v=>v+1))
+			getKey("answer")
+				.test.pressed(variable.correct_answer)
+				// Increment [score] variable if question is answered correctly
+				.success(getVar("score").set(v=>v+1))
+			,
+			// Increment [outOf] variable every time a question is answered
+			getVar("outOf").set(v=>v+1)
 		)
 		.wait()
     ]:null)
@@ -244,6 +250,7 @@ Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
 Template("test_feedback.csv",       customTrial("test_feedback"))
+Template("test_feedback_long.csv",  customTrial("test_feedback_long"))
 
 
 // Post-experiment comment section
