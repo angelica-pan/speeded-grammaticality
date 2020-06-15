@@ -6,8 +6,8 @@ var showProgressBar = false;                            // Don't show progress b
 
 // Running order
 
-Function that separates items into blocks of [n] trials and adds newTrial("test") in between each block
-source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
+// Separates items into blocks of [n] trials and adds newTrial("break") in between each block
+// source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
 	var n = 4 ;
     for (var i = 0; i < ro.length; ++i) {
