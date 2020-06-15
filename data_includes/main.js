@@ -100,17 +100,22 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    newTimer("timer", 3000)
+    newTimer("window", 3000)
     	.log()
         .start()
-        // .wait()
     ,
     newKey("judgment", "FJ")
     	.log()
-        .wait()
-        .callback(
-        	getTimer("timer").stop()
-        )
+    	.wait()
+    ,
+    getTimer("window")
+    	.test.ended()
+    	.success(
+    		newText("too slow...").print()
+    		)
+    	.failure(
+    		newText("good job").print()
+    	)
     ,
     getKey("continue")
         .wait()
