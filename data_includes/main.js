@@ -72,7 +72,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     // RSVP sentence
     //newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200, "wordPauseTime":50})
-    newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":300, "wordPauseTime":50})
+    newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
         .log()
         .print()
@@ -99,13 +99,15 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    newTimer("hurry", 3000)
-        .start()
-    ,
     newKey("judgment", "FJ")
-        .wait()
+        //.wait()
         .log()
     ,
+    newTimer("hurry", 3000)
+        .start()
+        .wait()
+    ,
+    
     getKey("judgment")
         .test.pressed("FJ")
         .success(
