@@ -19,16 +19,13 @@ customButton = text  =>
 // Separates items into blocks of [n] trials and adds newTrial("break") in between each block
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
-	var n = 8 ;
+	var n = 5 ;
     for (var i = 0; i < ro.length; ++i) {
-    	// Add newTrial() after every 5 trials
         if (i % n == (n-1)) {
-            // Passing 'true' as the third argument casues the results from this controller
-            // to be omitted from the results file. (Though in fact, the Message controller
-            // does not add any results in any case.)
+            // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
             ro[i].push(new DynamicElement(
     			"PennController",
-				newTrial("score",
+				newTrial("break",
 					newVar("score").global()
     				,
     				newVar("outOf").global()
@@ -53,6 +50,7 @@ function modifyRunningOrder(ro) {
 					,
 					getText("pt2").remove()
     				,
+    				// Prints comprehension question accuracy as fraction
 					newText("accuracy", "Current comprehension question accuracy: ")
 						.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
     					.after(newText("").text(getVar("score")))
@@ -61,15 +59,12 @@ function modifyRunningOrder(ro) {
     					.print()
 					,
 					customButton("Click here to continue")
+						.cssContainer({"margin":"15px 0 0 0", "width":"600px"})
 					,
 					// reset [score] and [outOf] variables to 0
-					getVar("score")
-						.log()
-						.set(v=>0)
+					getVar("score").set(v=>0)
 					,
-					getVar("outOf")
-						.log()
-						.set(v=>0)
+					getVar("outOf").set(v=>0)
 				)
     			,
     			false
@@ -80,11 +75,10 @@ function modifyRunningOrder(ro) {
 }
   
 // Testing sequences  
-Sequence(rshuffle("test_feedback", "test_good-fillers", "test_bad-fillers"), "send")
-// Sequence(modifyRunningOrder(rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe")), "end", "send", "confirmation")
+// Sequence(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send")
 
 // Actual sequence
-// tbd
+Sequence("welcome", "practice", "post-practice", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -122,33 +116,18 @@ newTrial("post-practice",
     customButton("Click here to start the experiment")
 )
 
-// Score trial
-newTrial("score",
-    newVar("score").global()
-    ,
-    newVar("outOf").global()
-    ,
-	newText("accuracy", "Comprehension question accuracy: ")
-    	.after(newText("").text(getVar("score")))
-   		.after(newText("/"))
-    	.after(newText("").text(getVar("outOf")))
-    	.print()
-    ,
-	customButton("Click here to continue")
-	
-)
 
 // Trial template
-// source CSV must have the following columns: [sentence]
-// source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
-// source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
+	// source CSV must have the following columns: [sentence]
+	// source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
+	// source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
 	// create [score] and [outOf] variables and initialize to 0 if they do not already exist
 	newVar("score", 0).global()
 	,
 	newVar("outOf", 0).global()
 	,
-	// set text to always be centered
+	// Set text to always be centered
     defaultText
         .center()
     ,
@@ -166,7 +145,7 @@ customTrial = label => variable => newTrial( label ,
     clear()
     ,
     // RSVP sentence
-    // margin: top=110px right=0px bottom=0px left=0px
+    	// margin: top=110px right=0px bottom=0px left=0px
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
         .log()
@@ -291,8 +270,6 @@ Template("practice.csv",            customTrial("practice"))
 Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
-Template("test_feedback.csv",       customTrial("test_feedback"))
-Template("test_feedback_long.csv",  customTrial("test_feedback_long"))
 
 
 // Post-experiment comment section
