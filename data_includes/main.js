@@ -4,11 +4,13 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Function that separates experimental items into blocks of [n] trials
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
+	var n = 5 ;
     for (var i = 0; i < ro.length; ++i) {
     	// Add newTrial() after every 5 trials
-        if (i % 5 == 4) {
+        if (i % n == (n-1)) {
             // Passing 'true' as the third argument casues the results from this controller
             // to be omitted from the results file. (Though in fact, the Message controller
             // does not add any results in any case.)
