@@ -7,14 +7,20 @@ var showProgressBar = false;                            // Don't show progress b
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
     for (var i = 0; i < ro.length; ++i) {
-        if (i % 3 == 0) {
+    	// Add newTrial() after every 5 trials
+        if (i % 5 == 4) {
             // Passing 'true' as the third argument casues the results from this controller
             // to be omitted from the results file. (Though in fact, the Message controller
             // does not add any results in any case.)
             ro[i].push(new DynamicElement(
     			"PennController",
    		 		newTrial(
-       				newButton("Hello world").print().wait()
+       				newText("Time for a longer break! Press the spacebar when you're ready to continue")
+       					.center()
+       					.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+       					.print()
+       				,
+       				newKey(" ").wait()
     			),
     			false
 			));
