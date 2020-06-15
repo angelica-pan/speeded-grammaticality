@@ -106,6 +106,7 @@ newTrial("score",
 // source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
 	newVar("score", 0).global()
+	,
 	newVar("outOf", 0).global()
 	,
     defaultText
