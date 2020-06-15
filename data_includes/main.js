@@ -87,6 +87,7 @@ newTrial("post-practice",
 // Score trial
 newTrial("score",
     newVar("score").global()
+    ,
     newVar("outOf").global()
     ,
 	newText("accuracy", "Comprehension question accuracy: ")
