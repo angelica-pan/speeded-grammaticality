@@ -9,7 +9,7 @@ var showProgressBar = false;                            // Don't show progress b
 // Separates items into blocks of [n] trials and adds newTrial("break") in between each block
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
-	var n = 4 ;
+	var n = 8 ;
     for (var i = 0; i < ro.length; ++i) {
     	// Add newTrial() after every 5 trials
         if (i % n == (n-1)) {
@@ -18,14 +18,25 @@ function modifyRunningOrder(ro) {
             // does not add any results in any case.)
             ro[i].push(new DynamicElement(
     			"PennController",
-   		 		newTrial("break",
-       				newText("Time for a longer break!")
-       					.center()
-       					.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
-       					.print()
-       				,
-       				customButton("Click here to continue")
-    			),
+				newTrial("score",
+    				newVar("score").global()
+    				,
+    				newVar("outOf").global()
+    				,
+					newText("accuracy", "Comprehension question accuracy: ")
+    					.after(newText("").text(getVar("score")))
+   						.after(newText("/"))
+    					.after(newText("").text(getVar("outOf")))
+    					.print()
+    				,
+					customButton("Click here to continue")
+					,
+					// reset [score] and [outOf] variables to 0
+					getVar("score").set(v=>0)
+					,
+					getVar("outOf").set(v=>0)
+				)
+    			,
     			false
 			));
         }
@@ -34,7 +45,7 @@ function modifyRunningOrder(ro) {
 }
   
 // Testing sequences  
-Sequence("test_feedback_long", "score", "send")
+Sequence("test_feedback_long", "send")
 // Sequence(modifyRunningOrder(rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe")), "end", "send", "confirmation")
 
 // Actual sequence
@@ -94,7 +105,6 @@ newTrial("score",
     	.after(newText("").text(getVar("score")))
    		.after(newText("/"))
     	.after(newText("").text(getVar("outOf")))
-    	.log()
     	.print()
     ,
 	customButton("Click here to continue")
@@ -106,10 +116,12 @@ newTrial("score",
 // source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
 // source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
+	// create [score] and [outOf] variables and initialize to 0 if they do not already exist
 	newVar("score", 0).global()
 	,
 	newVar("outOf", 0).global()
 	,
+	// set text to always be centered
     defaultText
         .center()
     ,
