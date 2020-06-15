@@ -213,7 +213,7 @@ customTrial = label => variable => newTrial( label ,
         .log()
 	,
 	getKey("answer")
-		.test.pressed(row.correct_answer)
+		.test.pressed(variable.correct_answer)
 		.success(getVar("score").set(v=>v+1))
     ]:null)
     ,
@@ -236,7 +236,7 @@ customTrial = label => variable => newTrial( label ,
 .log("item",                	variable.item)
 .log("correct_judgment",    	variable.correct_judgment)
 .log("correct_answer",    	    variable.correct_answer)
-.log("accuracy",    	    	variable.score)
+.log("accuracy",    	    	getVar("score"))
 
 // test items
 Template("practice.csv",            customTrial("practice"))
