@@ -22,7 +22,7 @@ function modifyRunningOrder(ro) {
 	var n = 5 ;
 	var experiment = ["test_vpe", "test_good-fillers", "test_bad-fillers"] ;
     for (var i = 0; i < ro.length; ++i) {
-        if ((i % n == (n-1)) && (experiment.includes(r[i].type))) {
+        if ((i % n == (n-1)) && (experiment.includes(ro[i].type))) {
             // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
             ro[i].push(new DynamicElement(
     			"PennController",
