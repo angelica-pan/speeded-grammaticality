@@ -85,16 +85,27 @@ newTrial("post-practice",
 )
 
 // Score variable
-newVar("score", 0)
-	.global()
+// newVar("score", 0)
+// 	.global()
 
+// Score trial
+newTrial("score",
+    newVar("score").global()
+    ,
+    newText("Your score on the recall task was: ")
+        .after(newText("").text(getVar("score")))
+        .log()
+        .print()
+	,
+	customButton("Click here to continue")
+)
 
 // Trial template
 // source CSV must have the following columns: [sentence]
 // source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
 // source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
-	newVar("score").global()
+	newVar("score", 0).global()
 	,
     defaultText
         .center()
@@ -198,12 +209,12 @@ customTrial = label => variable => newTrial( label ,
         .log()
     ,
     newKey("answer", "FJ")
-        .wait()
         .log()
-	,
-	getKey("answer")
-		.test.pressed(variable.correct_answer)
-		.success(getVar("score").set(v=>v+1))
+        .callback(
+			getKey("answer").test.pressed(variable.correct_answer)
+			.success(getVar("score").set(v=>v+1))
+		)
+		.wait()
     ]:null)
     ,
     clear()
@@ -234,17 +245,6 @@ Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
 Template("test_feedback.csv",       customTrial("test_feedback"))
 
-// Score trial
-newTrial("score",
-    newVar("score").global()
-    ,
-    newText("Your score on the recall task was: ")
-        .after(newText("").text(getVar("score")))
-        .log()
-        .print()
-	,
-	customButton("Click here to continue")
-)
 
 // Post-experiment comment section
 newTrial("end",
