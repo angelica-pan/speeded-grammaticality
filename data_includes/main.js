@@ -4,6 +4,16 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Custom button: creates button with blue background
+customButton = text  => 
+    newButton(text)
+        .center()
+        .css({"background-color":"lightblue"})
+        .print()
+        .wait()
+
+////////////////////////////////////////////////////////////////////////////////
+
 // Running order
 
 // Separates items into blocks of [n] trials and adds newTrial("break") in between each block
@@ -19,22 +29,47 @@ function modifyRunningOrder(ro) {
             ro[i].push(new DynamicElement(
     			"PennController",
 				newTrial("score",
-    				newVar("score").global()
+					newVar("score").global()
     				,
     				newVar("outOf").global()
     				,
-					newText("accuracy", "Comprehension question accuracy: ")
+					defaultText
+						.center()
+					,
+    				newText("pt1", "Time for a longer break!")
+    					.cssContainer({"margin":"145px 0 0 0", "width":"600px", "font-size":"150%"})
+    					.bold()
+    					.print()
+    				,
+    				newText("pt2", "Press the spacebar to see comprehension question accuracy.")
+    					.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
+						.italic()
+						.print()
+					,
+					newKey(" ")
+						.wait()
+					,
+					getText("pt1").remove()
+					,
+					getText("pt2").remove()
+    				,
+					newText("accuracy", "Current comprehension question accuracy: ")
+						.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
     					.after(newText("").text(getVar("score")))
    						.after(newText("/"))
     					.after(newText("").text(getVar("outOf")))
     					.print()
-    				,
+					,
 					customButton("Click here to continue")
 					,
 					// reset [score] and [outOf] variables to 0
-					getVar("score").set(v=>0)
+					getVar("score")
+						.log()
+						.set(v=>0)
 					,
-					getVar("outOf").set(v=>0)
+					getVar("outOf")
+						.log()
+						.set(v=>0)
 				)
     			,
     			false
@@ -45,7 +80,7 @@ function modifyRunningOrder(ro) {
 }
   
 // Testing sequences  
-Sequence("test_feedback_long", "send")
+Sequence(rshuffle("test_feedback", "test_good-fillers", "test_bad-fillers"), "send")
 // Sequence(modifyRunningOrder(rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe")), "end", "send", "confirmation")
 
 // Actual sequence
@@ -53,15 +88,7 @@ Sequence("test_feedback_long", "send")
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Custom button: creates button with blue background
-customButton = text  => 
-    newButton(text)
-        .center()
-        .css({"background-color":"lightblue"})
-        .print()
-        .wait()
-
-////////////////////////////////////////////////////////////////////////////////
+// Experiment
 
 // Welcome/instructions
 newTrial("welcome",
@@ -256,9 +283,10 @@ customTrial = label => variable => newTrial( label ,
 .log("item",                	variable.item)
 .log("correct_judgment",    	variable.correct_judgment)
 .log("correct_answer",    	    variable.correct_answer)
-.log("accuracy",    	    	getVar("score"))
+.log("score",    	    		getVar("score"))
+.log("outOf",    	    		getVar("outOf"))
 
-// test items
+// Items
 Template("practice.csv",            customTrial("practice"))
 Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
@@ -298,7 +326,7 @@ newTrial("end",
 // Send results
 PennController.SendResults("send");
 
-// End of experiment confirmation
+// End-of-experiment confirmation
 newTrial("confirmation",
     newText("Thank you for participating! You may now exit the window.")
         .center()
