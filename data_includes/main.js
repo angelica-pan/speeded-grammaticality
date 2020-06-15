@@ -20,9 +20,8 @@ customButton = text  =>
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
 	var n = 5 ;
-	var experiment = ["test_vpe", "test_good-fillers", "test_bad-fillers"] ;
     for (var i = 0; i < ro.length; ++i) {
-        if ((i % n == (n-1)) && (experiment.includes(ro[i].type))) {
+        if (i % n == (n-1)) {
             // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
             ro[i].push(new DynamicElement(
     			"PennController",
@@ -74,12 +73,15 @@ function modifyRunningOrder(ro) {
     }
     return ro;
 }
+function modifyRunningOrder(ro) {
+    return new modifyRunningOrder(ro);
+}
   
 // Testing sequences  
 // Sequence(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send")
 
 // Actual sequence
-Sequence("welcome", "practice", "post-practice", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send", "confirmation")
+Sequence("welcome", "practice", "post-practice", modifyRunningOrder(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers")), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
