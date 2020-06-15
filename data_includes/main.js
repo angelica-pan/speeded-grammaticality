@@ -4,7 +4,8 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Sequence("welcome", "practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send", "confirmation")
+//Sequence("welcome", "practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send", "confirmation")
+Sequence("practice")
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -99,32 +100,28 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    newKey("judgment", "FJ")
-        //.wait()
-        .log()
-    ,
-    newTimer("hurry", 3000)
+    newTimer("timer", 3000)
+    	.log()
         .start()
         .wait()
     ,
-    
+    newKey("judgment", "FJ")
+        // .wait()
+        .log()
+        .callback(getTimer("timer").stop())
+    ,
+    clear()
+	,
     getKey("judgment")
         .test.pressed("FJ")
-        .success(
-            clear()
-            ,
-            newText("Good job!").print() 
-            )
-        .failure(
-            clear()
-            ,
-            newText("Too slow...").print()
-            )
+        .success(newText("Good job!").print())
+        .failure(newText("Too slow...").print())
     ,
     getKey("continue")
         .wait()
     ,
     clear()
+	,
     // Comprehension question
     ,
     (variable.question?[newText("question", variable.question)
