@@ -7,10 +7,10 @@ B,2,test_feedback,This is a test sentence.,,,,
 C,2,test_feedback,This is a test sentence.,,,,
 D,2,test_feedback,This is a test sentence.,,,,
 A,2,test_feedback,This is a test sentence.,,,,
-D,3,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
-A,3,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
-B,3,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
-C,3,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
+D,3,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
+A,3,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
+B,3,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
+C,3,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
 C,4,test_feedback,This is a test sentence.,,,,
 D,4,test_feedback,This is a test sentence.,,,,
 A,4,test_feedback,This is a test sentence.,,,,
@@ -23,10 +23,10 @@ B,6,test_feedback,This is a test sentence.,,,,
 C,6,test_feedback,This is a test sentence.,,,,
 D,6,test_feedback,This is a test sentence.,,,,
 A,6,test_feedback,This is a test sentence.,,,,
-D,7,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
-A,7,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
-B,7,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
-C,7,test_feedback,This is a test sentence.,TEST QUESTION?,YES,NO,F
+D,7,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
+A,7,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
+B,7,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
+C,7,test_feedback,This is a test sentence.,TEST QUESTION?,NO,YES,J
 C,8,test_feedback,This is a test sentence.,,,,
 D,8,test_feedback,This is a test sentence.,,,,
 A,8,test_feedback,This is a test sentence.,,,,
