@@ -5,7 +5,7 @@ var showProgressBar = false;                            // Don't show progress b
 ////////////////////////////////////////////////////////////////////////////////
 
 //Sequence("welcome", "practice", "post-practice", shuffle(randomize("test_bad-fillers"), randomize("test_good-fillers"), randomize("test_vpe")), "send", "confirmation")
-Sequence("practice")
+Sequence("practice", "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +73,7 @@ customTrial = label => variable => newTrial( label ,
     clear()
     ,
     // RSVP sentence
+    // margin: top=110px right=0px bottom=0px left=0px
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
         .log()
@@ -100,8 +101,8 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    // Create [3000]ms timer. If participant presses F/J key while timer is still running, continue. 
-    // Otherwise, display newText("tooSlow")
+    // Speeded judgment:  If participant presses F/J key while timer is still running, continue. Otherwise, display newText("tooSlow")
+    // Set timer to [3000]ms
     newTimer("window", 3000)
     	.log()
         .start()
@@ -110,12 +111,15 @@ customTrial = label => variable => newTrial( label ,
     	.log()
     	.wait()
     ,
+    // margin: top=145px right=0px bottom=0px left=0px
     newText("tooSlow", "Too slow...")
 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
     ,
+    // margin: top=105px right=0px bottom=0px left=0px
+    // Displayed at 350px height if printed under element with 145px top margin
     newText("next", "Press the spacebar to continue.")
     	.italic()
-    	.cssContainer({"margin":"350px 0 0 0", "width":"600px"})
+    	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
     ,
     clear()
 	,
@@ -129,7 +133,8 @@ customTrial = label => variable => newTrial( label ,
     	)
 	,
     // Comprehension question (only displays if value in source CSV's [question] column is non-empty)
-    (variable.question?[newText("question", variable.question)
+    (variable.question?[
+    newText("question", variable.question)
         .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
     ,
     newText("F_answer", variable.F_answer)
@@ -160,15 +165,15 @@ customTrial = label => variable => newTrial( label ,
     clear()
     // Feedback (only displays if value in source CSV's [feedback] column is non-empty)
     ,
-    (variable.feedback?[newText(variable.feedback)
+    (variable.feedback?[
+    newText(variable.feedback)
     	.bold()
 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
 		.print()
 	,
 	getText("next").print()
 	,
-    newKey(" ")
-        .wait()
+    getKey("continue").wait()
     ]:null)
 )
 .log("group",               	variable.group)
@@ -183,6 +188,43 @@ Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
 
+// Post-experiment comment section
+newTrial("end",
+	newHtml("comments", "comments.html")
+		.log()
+		.settings.cssContainer({"width": "720px"})
+		.print()
+	,
+	newText("next", "Press the spacebar to continue.")
+        .italic()
+        .center()
+        .print()
+    ,
+    newKey(" ")
+        .wait()
+    ,
+    clear()
+    ,
+    newHtml("exit_form", "exit.html")
+        .log()
+        .settings.cssContainer({"width": "720px"})
+        .inputWarning("Please enter your name and create a unique identifier.")
+        .print()
+    ,
+    newButton("Click here to finish the experiment.")
+        .css({"background-color":"lightblue", "font-size": "150%", "font-weight": "bold"})
+        .size(500,50)
+        .center()
+        .print()
+        .wait(
+            getHtml("exit_form").test.complete()
+            .failure(getHtml("exit_form").warn() )
+        )
+)
+
+// Send results
+PennController.SendResults("send");
+
 // End of experiment confirmation
 newTrial("confirmation",
     newText("Thank you for participating! You may now exit the window.")
@@ -192,6 +234,3 @@ newTrial("confirmation",
     newButton("void")
         .wait()
 )
-
-// Send results
-PennController.SendResults("send");

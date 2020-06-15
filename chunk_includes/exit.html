@@ -1,0 +1,33 @@
+<script language="javascript" type="text/javascript">
+function randomString() {
+  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  var string_length = 8;
+  var randomstring = '';
+  for (var i=0; i<string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    randomstring += chars.substring(rnum,rnum+1);
+  }
+  document.getElementById("randomID").value = randomstring;
+}
+</script>
+
+<h2> Identification </h2> In order to verify that you've completed the experiment, please enter your <b>first and last name</b> so that we can grant you credit. This information will be discarded after the study is finished.
+
+<br>
+<br>
+
+<b> First and last name: </b>
+<input type="text" class="obligatory" value="" size = "30" name="name"> <i>(required)</i> 
+
+<br>
+<br>
+<p>We also ask that you create a unique identification code, so we can verify that you completed the experiment. Please save this code, and reference it in any correspondence about the experiment. </p>
+
+ <b> Click on the following button to create your unique identifier. </b> 
+<br>
+<input type="button" value="Create unique identifier" onClick="randomString();">
+<input type="text" class="obligatory" ID="randomID" name="ID" value=""> <i> (required) </i>
+
+<br>
+<p> You must click on the blue button below to complete the experiment and to receive credit. Wait until the results have successfully uploaded to the server before closing the browser.  </p>
+<br>
