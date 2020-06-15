@@ -4,7 +4,9 @@ var showProgressBar = false;                            // Don't show progress b
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Function that separates experimental items into blocks of [n] trials
+// Running order
+
+// Function that separates items into blocks of [n] trials and adds newTrial("test") in between each block
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
 function modifyRunningOrder(ro) {
 	var n = 5 ;
@@ -16,13 +18,13 @@ function modifyRunningOrder(ro) {
             // does not add any results in any case.)
             ro[i].push(new DynamicElement(
     			"PennController",
-   		 		newTrial(
-       				newText("Time for a longer break! Press the spacebar when you're ready to continue")
+   		 		newTrial("break",
+       				newText("Time for a longer break! Press the F or J key when you're ready to continue.")
        					.center()
        					.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
        					.print()
        				,
-       				newKey(" ").wait()
+       				newKey("FJ").wait()
     			),
     			false
 			));
@@ -30,9 +32,13 @@ function modifyRunningOrder(ro) {
     }
     return ro;
 }
-    
-//Sequence("welcome", "practice", "post-practice", rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe"), "send", "confirmation")
-Sequence(modifyRunningOrder(rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe")), "end", "send", "confirmation")
+  
+// Testing sequences  
+Sequence("test_feedback", "score", "end", "send", "confirmation")
+// Sequence(modifyRunningOrder(rshuffle("test_bad-fillers", "test_good-fillers", "test_vpe")), "end", "send", "confirmation")
+
+// Actual sequence
+// tbd
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -78,11 +84,29 @@ newTrial("post-practice",
     customButton("Click here to start the experiment")
 )
 
+// Score variable
+newVar("score", 0)
+	.global()
+
+// Score trial
+newTrial("score",
+    newVar("score").global()
+    ,
+    newText("Your score on the recall task was: ")
+        .after(newText("").text(getVar("score")))
+        .log()
+        .print()
+	,
+	customButton("Click here to continue")
+)
+
 // Trial template
 // source CSV must have the following columns: [sentence]
 // source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
 // source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
 customTrial = label => variable => newTrial( label ,
+	newVar("score").global()
+	,
     defaultText
         .center()
     ,
@@ -187,6 +211,10 @@ customTrial = label => variable => newTrial( label ,
     newKey("answer", "FJ")
         .wait()
         .log()
+	,
+	getKey("answer")
+		.test.pressed(row.correct_answer)
+		.success(getVar("score").set(v=>v+1))
     ]:null)
     ,
     clear()
@@ -208,12 +236,14 @@ customTrial = label => variable => newTrial( label ,
 .log("item",                	variable.item)
 .log("correct_judgment",    	variable.correct_judgment)
 .log("correct_answer",    	    variable.correct_answer)
+.log("accuracy",    	    	variable.score)
 
 // test items
 Template("practice.csv",            customTrial("practice"))
 Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
+Template("test_feedback.csv",       customTrial("test_feedback"))
 
 // Post-experiment comment section
 newTrial("end",
@@ -223,6 +253,8 @@ newTrial("end",
 		.print()
 	,
     customButton("Click here to continue")
+    ,
+    clear()
     ,
     newHtml("exit_form", "exit.html")
         .log()
