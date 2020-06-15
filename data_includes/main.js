@@ -123,7 +123,6 @@ customTrial = label => variable => newTrial( label ,
     clear()
 	,
     // Comprehension question
-    ,
     (variable.question?[newText("question", variable.question)
         .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
     ,
