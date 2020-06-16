@@ -192,7 +192,7 @@ customTrial = label => variable => newTrial( label ,
     	.wait()
     ,
     // margin: top=145px right=0px bottom=0px left=0px
-    newText("tooSlow", "Too slow...")
+    newText("tooSlow", "Please answer more quickly! Remember, speed is important.")
 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
     ,
     // margin: top=105px right=0px bottom=0px left=0px
