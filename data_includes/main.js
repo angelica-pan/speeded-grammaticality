@@ -112,7 +112,7 @@ newTrial("break",
 	// Prints comprehension question accuracy as fraction
 		// margin: top=145px right=0px bottom=50px left=0px
 	newText("accuracy", "Current comprehension question accuracy: ")
-		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+		.cssContainer({"margin":"145px 0 50 0", "width":"600px"})
 		.after(newText("").text(getVar("score")))
    		.after(newText("/"))
 		.after(newText("").text(getVar("outOf")))
