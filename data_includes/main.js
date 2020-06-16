@@ -104,12 +104,10 @@ newTrial("break",
 	,
 	newKey(" ")
 		.wait()
-// 	,
-// 	getText("pt1").remove()
-// 	,
-// 	getText("pt2").remove()
 	,
-	clear()
+	getText("pt1").remove()
+	,
+	getText("pt2").remove()
 	,
 	// Prints comprehension question accuracy as fraction
 		// margin: top=145px right=0px bottom=50px left=0px
