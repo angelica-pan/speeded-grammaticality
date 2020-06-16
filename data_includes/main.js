@@ -14,69 +14,8 @@ customButton = text  =>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Running order
 
-// Separates items into blocks of [n] trials and adds newTrial("break") in between each block
-// source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
-// function modifyRunningOrder(ro) {
-// 	var n = 8 ;
-//     for (var i = 0; i < ro.length; ++i) {
-//         if (i % n == (n-1)) {
-//             // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
-//             ro[i].push(new DynamicElement(
-//     			"PennController",
-// 				newTrial("break",
-// 					newVar("score").global()
-//     				,
-//     				newVar("outOf").global()
-//     				,
-// 					defaultText
-// 						.center()
-// 					,
-//     				newText("pt1", "Time for a longer break!")
-//     					.cssContainer({"margin":"145px 0 0 0", "width":"600px", "font-size":"150%"})
-//     					.bold()
-//     					.print()
-//     				,
-//     				newText("pt2", "Press the spacebar to see comprehension question accuracy.")
-//     					.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
-// 						.italic()
-// 						.print()
-// 					,
-// 					newKey(" ")
-// 						.wait()
-// 					,
-// 					getText("pt1").remove()
-// 					,
-// 					getText("pt2").remove()
-//     				,
-//     				// Prints comprehension question accuracy as fraction
-// 					newText("accuracy", "Current comprehension question accuracy: ")
-// 						.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
-//     					.after(newText("").text(getVar("score")))
-//   						.after(newText("/"))
-//     					.after(newText("").text(getVar("outOf")))
-//     					.print()
-// 					,
-// 					customButton("Click here to continue")
-// 						.cssContainer({"margin":"50px 0 0 0", "width":"600px"})
-// 					,
-// 					// reset [score] and [outOf] variables to 0
-// 					getVar("score").set(v=>0)
-// 					,
-// 					getVar("outOf").set(v=>0)
-// 				)
-//     			,
-//     			false
-// 			));
-//         }
-//     }
-//     return ro;
-// }
-
-// Testing sequences  
-// Sequence(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send")
-
+// see this thread: https://www.pcibex.net/forums/topic/catch-trials/#post-5643
 function SepWithN(sep, main, n) {
     this.args = [sep,main];
 
@@ -102,7 +41,10 @@ function SepWithN(sep, main, n) {
 }
 function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }
 
-// Actual sequence
+// Test sequence
+// Sequence(sepWithN("break", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), 5))
+
+// Experimental sequence
 Sequence("welcome", "practice", "post-practice", sepWithN("break", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), 5), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -162,12 +104,15 @@ newTrial("break",
 	,
 	newKey(" ")
 		.wait()
+// 	,
+// 	getText("pt1").remove()
+// 	,
+// 	getText("pt2").remove()
 	,
-	getText("pt1").remove()
-	,
-	getText("pt2").remove()
+	clear()
 	,
 	// Prints comprehension question accuracy as fraction
+		// margin: top=145px right=0px bottom=50px left=0px
 	newText("accuracy", "Current comprehension question accuracy: ")
 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
 		.after(newText("").text(getVar("score")))
@@ -176,9 +121,8 @@ newTrial("break",
 		.print()
 	,
 	customButton("Click here to continue")
-		.cssContainer({"margin":"50px 0 0 0", "width":"600px"})
 	,
-	// reset [score] and [outOf] variables to 0
+	// Reset [score] and [outOf] variables to 0
 	getVar("score").set(v=>0)
 	,
 	getVar("outOf").set(v=>0)
@@ -211,7 +155,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     clear()
     ,
-    // RSVP sentence
+    // RSVP 
     	// margin: top=110px right=0px bottom=0px left=0px
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
         .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
@@ -241,7 +185,6 @@ customTrial = label => variable => newTrial( label ,
         .log()
     ,
     // Speeded judgment:  If participant presses F/J key while timer is still running, continue. Otherwise, display newText("tooSlow")
-    // Set timer to [3000]ms
     newTimer("window", 3000)
     	.log()
         .start()
@@ -255,7 +198,7 @@ customTrial = label => variable => newTrial( label ,
 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
     ,
     // margin: top=105px right=0px bottom=0px left=0px
-    // Displayed at 350px height if printed under element with 145px top margin
+    	// Displayed at 350px height if printed under element with 145px top margin
     newText("next", "Press the spacebar to continue.")
     	.italic()
     	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
@@ -301,7 +244,7 @@ customTrial = label => variable => newTrial( label ,
         .callback(
 			getKey("answer")
 				.test.pressed(variable.correct_answer)
-				// Increment [score] variable if question is answered correctly
+				// Increment [score] variable every time a question is answered correctly
 				.success(getVar("score").set(v=>v+1))
 			,
 			// Increment [outOf] variable every time a question is answered
