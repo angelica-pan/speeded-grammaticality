@@ -18,67 +18,92 @@ customButton = text  =>
 
 // Separates items into blocks of [n] trials and adds newTrial("break") in between each block
 // source: https://github.com/addrummond/ibex/blob/master/docs/manual.md#modifying-the-running-order-manually
-function modifyRunningOrder(ro) {
-	var n = 8 ;
-    for (var i = 0; i < ro.length; ++i) {
-        if (i % n == (n-1)) {
-            // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
-            ro[i].push(new DynamicElement(
-    			"PennController",
-				newTrial("break",
-					newVar("score").global()
-    				,
-    				newVar("outOf").global()
-    				,
-					defaultText
-						.center()
-					,
-    				newText("pt1", "Time for a longer break!")
-    					.cssContainer({"margin":"145px 0 0 0", "width":"600px", "font-size":"150%"})
-    					.bold()
-    					.print()
-    				,
-    				newText("pt2", "Press the spacebar to see comprehension question accuracy.")
-    					.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
-						.italic()
-						.print()
-					,
-					newKey(" ")
-						.wait()
-					,
-					getText("pt1").remove()
-					,
-					getText("pt2").remove()
-    				,
-    				// Prints comprehension question accuracy as fraction
-					newText("accuracy", "Current comprehension question accuracy: ")
-						.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
-    					.after(newText("").text(getVar("score")))
-   						.after(newText("/"))
-    					.after(newText("").text(getVar("outOf")))
-    					.print()
-					,
-					customButton("Click here to continue")
-						.cssContainer({"margin":"50px 0 0 0", "width":"600px"})
-					,
-					// reset [score] and [outOf] variables to 0
-					getVar("score").set(v=>0)
-					,
-					getVar("outOf").set(v=>0)
-				)
-    			,
-    			false
-			));
-        }
-    }
-    return ro;
-}
+// function modifyRunningOrder(ro) {
+// 	var n = 8 ;
+//     for (var i = 0; i < ro.length; ++i) {
+//         if (i % n == (n-1)) {
+//             // Passing 'true' as the third argument casues the results from this controller to be omitted from the results file. 
+//             ro[i].push(new DynamicElement(
+//     			"PennController",
+// 				newTrial("break",
+// 					newVar("score").global()
+//     				,
+//     				newVar("outOf").global()
+//     				,
+// 					defaultText
+// 						.center()
+// 					,
+//     				newText("pt1", "Time for a longer break!")
+//     					.cssContainer({"margin":"145px 0 0 0", "width":"600px", "font-size":"150%"})
+//     					.bold()
+//     					.print()
+//     				,
+//     				newText("pt2", "Press the spacebar to see comprehension question accuracy.")
+//     					.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
+// 						.italic()
+// 						.print()
+// 					,
+// 					newKey(" ")
+// 						.wait()
+// 					,
+// 					getText("pt1").remove()
+// 					,
+// 					getText("pt2").remove()
+//     				,
+//     				// Prints comprehension question accuracy as fraction
+// 					newText("accuracy", "Current comprehension question accuracy: ")
+// 						.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+//     					.after(newText("").text(getVar("score")))
+//   						.after(newText("/"))
+//     					.after(newText("").text(getVar("outOf")))
+//     					.print()
+// 					,
+// 					customButton("Click here to continue")
+// 						.cssContainer({"margin":"50px 0 0 0", "width":"600px"})
+// 					,
+// 					// reset [score] and [outOf] variables to 0
+// 					getVar("score").set(v=>0)
+// 					,
+// 					getVar("outOf").set(v=>0)
+// 				)
+//     			,
+//     			false
+// 			));
+//         }
+//     }
+//     return ro;
+// }
 
 // Testing sequences  
 // Sequence(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), "end", "send")
 
+function SepWithN(sep, main, n) {
+    this.args = [sep,main];
+
+    this.run = function(arrays) {
+        assert(arrays.length == 2, "Wrong number of arguments (or bad argument) to SepWithN");
+        assert(parseInt(n) > 0, "N must be a positive number");
+        let sep = arrays[0];
+        let main = arrays[1];
+
+        if (main.length <= 1)
+            return main
+        else {
+            let newArray = [];
+            while (main.length){
+                for (let i = 0; i < n && main.length>0; i++)
+                    newArray.push(main.pop());
+                for (let j = 0; j < sep.length; ++j)
+                    newArray.push(sep[j]);
+            }
+            return newArray;
+        }
+    }
+}
+function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }
+
 // Actual sequence
-Sequence("welcome", "practice", "post-practice", modifyRunningOrder(rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers")), "end", "send", "confirmation")
+Sequence("welcome", "practice", "post-practice", sepWithN("break", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), 5), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -116,6 +141,48 @@ newTrial("post-practice",
     customButton("Click here to start the experiment")
 )
 
+// Break Trial				
+newTrial("break",
+	newVar("score").global()
+	,
+	newVar("outOf").global()
+	,
+	defaultText
+		.center()
+	,
+	newText("pt1", "Time for a longer break!")
+		.cssContainer({"margin":"145px 0 0 0", "width":"600px", "font-size":"150%"})
+		.bold()
+		.print()
+	,
+	newText("pt2", "Press the spacebar to see comprehension question accuracy.")
+		.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
+		.italic()
+		.print()
+	,
+	newKey(" ")
+		.wait()
+	,
+	getText("pt1").remove()
+	,
+	getText("pt2").remove()
+	,
+	// Prints comprehension question accuracy as fraction
+	newText("accuracy", "Current comprehension question accuracy: ")
+		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+		.after(newText("").text(getVar("score")))
+   		.after(newText("/"))
+		.after(newText("").text(getVar("outOf")))
+		.print()
+	,
+	customButton("Click here to continue")
+		.cssContainer({"margin":"50px 0 0 0", "width":"600px"})
+	,
+	// reset [score] and [outOf] variables to 0
+	getVar("score").set(v=>0)
+	,
+	getVar("outOf").set(v=>0)
+)
 
 // Trial template
 	// source CSV must have the following columns: [sentence]
