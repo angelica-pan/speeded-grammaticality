@@ -182,7 +182,8 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    // Speeded judgment:  If participant presses F/J key while timer is still running, continue. Otherwise, display newText("tooSlow")
+    // Speeded judgment
+    // If participant presses F/J key while timer is still running, continue. Otherwise, display newText("tooSlow")
     newTimer("window", 3000)
     	.log()
         .start()
@@ -212,7 +213,39 @@ customTrial = label => variable => newTrial( label ,
     		clear()
     	)
 	,
-    // Comprehension question (only displays if value in source CSV's [question] column is non-empty)
+// 	//If participant does not press F/J key while timer is still running, skip trial
+//     newKey("judgment", "FJ")
+//     	.callback(getTimer("window").stop())
+//     	.log()
+//     ,
+// 	newTimer("window", 2000)
+//     	.log()
+//         .start()
+//         .wait()
+//     ,
+//     //margin: top=145px right=0px bottom=0px left=0px
+//     newText("tooSlow", "Please answer more quickly! Remember, speed is important.")
+// 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+//     ,
+//     //margin: top=105px right=0px bottom=0px left=0px
+//     	//Displayed at 350px height if printed under element with 145px top margin
+//     newText("next", "Press the spacebar to continue.")
+//     	.italic()
+//     	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
+//     ,
+//     clear()
+// 	,
+//     getKey("judgment")
+//     	.test.pressed()
+//     	.success(newText(" ").print())
+//     	.failure(
+//     		getText("tooSlow").print(),
+//     		getText("next").print(),
+//     		getKey("continue").wait(),
+//     		clear()
+//     		)
+// 	,
+//     Comprehension question (only displays if value in source CSV's [question] column is non-empty)
     (variable.question?[
     newText("question", variable.question)
         .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
@@ -320,3 +353,5 @@ newTrial("confirmation",
     newButton("void")
         .wait()
 )
+
+
