@@ -11,10 +11,10 @@
 			// i.e. print comprehension question if there is one
 		// Version 2: next trial begins immediately 
 			// Comment out lines 197-200
-			// i.e. skip comprehension question if there is one
+			// i.e. skip comprehension question even if there is one
 		// Version 3: ["tooSlow"] message prints before next trial begins 
 			// Don't comment out anything
-			// i.e. skip comprehension question if there is one)
+			// i.e. skip comprehension question even if there is one
 // 4. Comprehension question (participant presses F or J to answer comprehension question)
 // 5. Feedback (participant sees feedback and presses Spacebar to continue)
 // 6. Break trial (participant has opportunity to take longer break and sees comprehension question accuracy)
@@ -194,11 +194,11 @@ customTrial = label => variable => newTrial( label ,
     	.test.pressed()
     	.success(newText(" ").print())
     	.failure(
-//     		getText("tooSlow").print(),
-//     		getText("next").print(),
-//     		getKey("continue").wait()
+    		getText("tooSlow").print(),
+    		getText("next").print(),
+    		getKey("continue").wait()
 //     		,			
-    		end()
+//     		end()
     		)
 	,
 	clear()
