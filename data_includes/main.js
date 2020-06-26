@@ -1,5 +1,29 @@
+//
+// Speeded grammaticality judgment experiment with trial time out
+//
+// Trial format:
+// 1. Rest screen (participant presses Spacebar to continue)
+// 2. Stimulus RSVP 
+// 3a. Judgment (participant presses F or J to indicate judgment)
+// 3b. Trial time out (skips to next trial if participant does not provide judgment within time frame)
+		// Next trial begins immediately: lines 184-188 (comment out lines 189-197)
+		// ["tooSlow"] message prints before next trial begins: lines 189-197 (comment out lines 184-188)
+// 4. Comprehension question (participant presses F or J to answer comprehension question)
+// 5. Feedback (participant sees feedback and presses Spacebar to continue)
+// 6. Break trial (participant has opportunity to take longer break and sees comprehension question accuracy)
+//
+// Sections 4 and 5 only display when the source CSV has non-empty [question] and [feedback] values
+
+// CSV must have the following column(s): [sentence]
+// CSV should have the following column(s): [question], [F_answer], [J_answer], [feedback] 
+// CSV should have the following column(s) for logging: [group], [condition], [item], [correct_judgment], [correct_answer]
+
+// Angelica Pan, June 2020
+
+////////////////////////////////////////////////////////////////////////////////
+
 PennController.ResetPrefix(null);                       // Initiates PennController
-PennController.DebugOff()
+PennController.DebugOff()								// Comment out this line to show the debug window
 var showProgressBar = false;                            // Don't show progress bar
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -12,10 +36,9 @@ customButton = text  =>
         .print()
         .wait()
 
-////////////////////////////////////////////////////////////////////////////////
 
-
-// see this thread: https://www.pcibex.net/forums/topic/catch-trials/#post-5643
+// source: https://www.pcibex.net/forums/topic/catch-trials/#post-5643
+// [sepWithN("break", trial_sequence, n)] -- inserts ["break"] trial into [trial_sequence] every [n] instances
 function SepWithN(sep, main, n) {
     this.args = [sep,main];
 
@@ -42,14 +65,12 @@ function SepWithN(sep, main, n) {
 function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }
 
 // Test sequence
-// Sequence(sepWithN("break", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), 5))
+// Sequence("practice")
 
 // Experimental sequence
 Sequence("welcome", "practice", "post-practice", sepWithN("break", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), 5), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
-
-// Experiment
 
 // Welcome/instructions
 newTrial("welcome",
@@ -83,7 +104,167 @@ newTrial("post-practice",
     customButton("Click here to start the experiment")
 )
 
-// Break Trial				
+// Trial template
+customTrial = label => variable => newTrial( label ,
+	// Create [score] and [outOf] variables and initialize to 0, if they do not already exist
+	newVar("score", 0).global()
+	,
+	newVar("outOf", 0).global()
+	,
+	// Set text to always be centered
+    defaultText
+        .center()
+    ,
+    // 1. Rest screen 
+    	// Participant presses the spacebar to continue.
+    newImage("fixation_cross", "fixation_cross.png")
+        .size(300,300)
+    ,
+    newCanvas(300, 310)
+        .add(0, 10, getImage("fixation_cross"))
+        .print()
+    ,
+    newKey("continue", " ")
+        .wait()
+    ,
+    clear()
+    ,
+    // 2. Stimulus RSVP
+    	// Prints value in source table's [sentence] column at 150%.
+    	// margin: top=110px right=0px bottom=0px left=0px
+    newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
+        .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
+        .log()
+        .print()
+        .wait()
+        .remove()
+    ,
+    // 3a. Judgment
+        // Prints ["placeholder"] at 150%. Below that, prints ["not_okay"] on the left and ["okay"] on the right.
+    	// Participant presses F/J to make a judgment and continue. 
+    newText("placeholder", "+++++++")
+        .cssContainer({"width": "600px", "height": "50px","font-size": "150%"})
+    ,
+    newText("not_okay", "F)&nbsp; NOT OKAY")
+        .italic()
+        .cssContainer({"width": "300px"})
+    ,
+    newText("okay", "J)&nbsp; OKAY")
+        .italic()
+        .cssContainer({"width": "300px"})
+    ,
+    newCanvas("j_display", 600, 400)
+        .add(0, 145, getText("placeholder"))
+        .add(0, 350, getText("not_okay"))
+        .add(300, 350, getText("okay"))
+        .print()
+        .log()
+    ,
+    newKey("judgment", "FJ")				
+    	.callback(getTimer("window").stop())
+    	.log("all")							
+    ,
+    // 3b. Trial time out
+    	// Starts a [2000]ms timer that stops (a) when a valid "judgment" key is pressed, or (b) when it runs out.
+    	// Then, checks if a valid "judgment" key was pressed. If yes, print nothing (aka continue). If no, end trial.
+	newTimer("window", 2000)
+    	.log()
+        .start()
+        .wait("first")
+    ,
+    newText("tooSlow", "Please answer more quickly! Remember, speed is important.")
+		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+    ,
+    newText("next", "Press the spacebar to continue.")
+    	.italic()
+    	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
+    ,
+    clear()
+    ,
+//     getKey("judgment")
+//     	.test.pressed()
+//     	.success(newText(" ").print())
+//     	.failure(end())
+// 	,
+	getKey("judgment")
+    	.test.pressed()
+    	.success(newText(" ").print())
+    	.failure(
+    		getText("tooSlow").print(),
+    		getText("next").print(),
+    		getKey("continue").wait(),
+    		end())
+	,
+	clear()
+	,
+	// 4. Comprehension question 
+    (variable.question?[
+    newText("question", variable.question)
+        .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
+    ,
+    newText("F_answer", variable.F_answer)
+        .before(newText("F)&nbsp;"))
+        .cssContainer({"width": "300px"})
+    ,
+    newText("J_answer", variable.J_answer)
+        .before(newText("J)&nbsp;"))
+        .cssContainer({"width": "300px"})
+    ,
+    newText("reminder", "Press the F or J key to select your answer")
+        .italic()
+        .cssContainer({"width": "600px"})
+    ,
+    newCanvas("q_display", 600, 400)
+        .add(0, 145, getText("question"))
+        .add(0, 200, getText("F_answer"))
+        .add(300, 200, getText("J_answer"))
+        .add(0, 350, getText("reminder"))
+        .print()
+        .log()
+    ,
+    getKey("judgment")		// disable "judgment" Key so that any ["answer"] keypress is not incorrectly logged as ["judgment"]
+    	.disable()
+    ,
+    newKey("answer", "FJ")
+        .log()
+        .callback(
+			getKey("answer")
+				.test.pressed(variable.correct_answer)
+				// Increment [score] variable every time a question is answered correctly
+				.success(getVar("score").set(v=>v+1))
+			,
+			// Increment [outOf] variable every time a question is answered
+			getVar("outOf").set(v=>v+1)
+		)
+		.wait()
+    ]:null)
+    ,
+    clear()
+    // 5. Feedback 
+    ,
+    (variable.feedback?[
+    newText(variable.feedback)
+    	.bold()
+		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
+		.print()
+	,
+	getText("next").print()
+	,
+    getKey("continue").wait()
+    ]:null)
+)
+.log("group",               	variable.group)
+.log("condition",           	variable.condition)
+.log("item",                	variable.item)
+.log("correct_judgment",    	variable.correct_judgment)
+.log("correct_answer",    	    variable.correct_answer)
+.log("score",    	    		getVar("score"))
+.log("outOf",    	    		getVar("outOf"))
+
+// 6. Break trial
+	// Participant presses the spacebar to see comprehension question accuracy.
+	// Comprehension question accuracy is displayed. 
+	// Participant presses the spacebar to continue to more experimental trials.				
 newTrial("break",
 	newVar("score").global()
 	,
@@ -126,192 +307,11 @@ newTrial("break",
 	getVar("outOf").set(v=>0)
 )
 
-// Trial template
-	// source CSV must have the following columns: [sentence]
-	// source CSV can have the following columns: [question], [F_answer], [J_answer], [feedback] 
-	// source CSV should have the following columns (for logging): [group], [condition], [item], [correct_judgment], [correct_answer]
-customTrial = label => variable => newTrial( label ,
-	// create [score] and [outOf] variables and initialize to 0 if they do not already exist
-	newVar("score", 0).global()
-	,
-	newVar("outOf", 0).global()
-	,
-	// Set text to always be centered
-    defaultText
-        .center()
-    ,
-    // Rest screen in between trials (press space to continue)
-    newImage("fixation_cross", "fixation_cross.png")
-        .size(300,300)
-    ,
-    newCanvas(300, 310)
-        .add(0, 10, getImage("fixation_cross"))
-        .print()
-    ,
-    newKey("continue", " ")
-        .wait()
-    ,
-    clear()
-    ,
-    // RSVP 
-    	// margin: top=110px right=0px bottom=0px left=0px
-    newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
-        .cssContainer({"margin":"110px 0 0 0", "font-size": "150%",})
-        .log()
-        .print()
-        .wait()
-        .remove()
-    ,
-    // Grammaticality Judgment
-    newText("placeholder", "+++++++")
-    .cssContainer({"width": "600px", "height": "50px","font-size": "150%"})
-    ,
-    // F for not okay, J for okay
-    newText("not_okay", "F)&nbsp; NOT OKAY")
-        .italic()
-        .cssContainer({"width": "300px"})
-    ,
-    newText("okay", "J)&nbsp; OKAY")
-        .italic()
-        .cssContainer({"width": "300px"})
-    ,
-    newCanvas("j_display", 600, 400)
-        .add(0, 145, getText("placeholder"))
-        .add(0, 350, getText("not_okay"))
-        .add(300, 350, getText("okay"))
-        .print()
-        .log()
-    ,
-    // Speeded judgment
-    // If participant presses F/J key while timer is still running, continue. Otherwise, display newText("tooSlow")
-    newTimer("window", 3000)
-    	.log()
-        .start()
-    ,
-    newKey("judgment", "FJ")
-    	.log()
-    	.wait()
-    ,
-    // margin: top=145px right=0px bottom=0px left=0px
-    newText("tooSlow", "Please answer more quickly! Remember, speed is important.")
-		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
-    ,
-    // margin: top=105px right=0px bottom=0px left=0px
-    	// Displayed at 350px height if printed under element with 145px top margin
-    newText("next", "Press the spacebar to continue.")
-    	.italic()
-    	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
-    ,
-    clear()
-	,
-    getTimer("window")
-    	.test.running()
-    	.failure(
-    		getText("tooSlow").print(),
-    		getText("next").print(),
-    		getKey("continue").wait(),
-    		clear()
-    	)
-	,
-// 	//If participant does not press F/J key while timer is still running, skip trial
-//     newKey("judgment", "FJ")
-//     	.callback(getTimer("window").stop())
-//     	.log()
-//     ,
-// 	newTimer("window", 2000)
-//     	.log()
-//         .start()
-//         .wait()
-//     ,
-//     //margin: top=145px right=0px bottom=0px left=0px
-//     newText("tooSlow", "Please answer more quickly! Remember, speed is important.")
-// 		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
-//     ,
-//     //margin: top=105px right=0px bottom=0px left=0px
-//     	//Displayed at 350px height if printed under element with 145px top margin
-//     newText("next", "Press the spacebar to continue.")
-//     	.italic()
-//     	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
-//     ,
-//     clear()
-// 	,
-//     getKey("judgment")
-//     	.test.pressed()
-//     	.success(newText(" ").print())
-//     	.failure(
-//     		getText("tooSlow").print(),
-//     		getText("next").print(),
-//     		getKey("continue").wait(),
-//     		clear()
-//     		)
-// 	,
-//     Comprehension question (only displays if value in source CSV's [question] column is non-empty)
-    (variable.question?[
-    newText("question", variable.question)
-        .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
-    ,
-    newText("F_answer", variable.F_answer)
-        .before(newText("F)&nbsp;"))
-        .cssContainer({"width": "300px"})
-    ,
-    newText("J_answer", variable.J_answer)
-        .before(newText("J)&nbsp;"))
-        .cssContainer({"width": "300px"})
-    ,
-    newText("reminder", "Press the F or J key to select your answer")
-        .italic()
-        .cssContainer({"width": "600px"})
-    ,
-    newCanvas("q_display", 600, 400)
-        .add(0, 145, getText("question"))
-        .add(0, 200, getText("F_answer"))
-        .add(300, 200, getText("J_answer"))
-        .add(0, 350, getText("reminder"))
-        .print()
-        .log()
-    ,
-    newKey("answer", "FJ")
-        .log()
-        .callback(
-			getKey("answer")
-				.test.pressed(variable.correct_answer)
-				// Increment [score] variable every time a question is answered correctly
-				.success(getVar("score").set(v=>v+1))
-			,
-			// Increment [outOf] variable every time a question is answered
-			getVar("outOf").set(v=>v+1)
-		)
-		.wait()
-    ]:null)
-    ,
-    clear()
-    // Feedback (only displays if value in source CSV's [feedback] column is non-empty)
-    ,
-    (variable.feedback?[
-    newText(variable.feedback)
-    	.bold()
-		.cssContainer({"margin":"145px 0 0 0", "width":"600px"})
-		.print()
-	,
-	getText("next").print()
-	,
-    getKey("continue").wait()
-    ]:null)
-)
-.log("group",               	variable.group)
-.log("condition",           	variable.condition)
-.log("item",                	variable.item)
-.log("correct_judgment",    	variable.correct_judgment)
-.log("correct_answer",    	    variable.correct_answer)
-.log("score",    	    		getVar("score"))
-.log("outOf",    	    		getVar("outOf"))
-
 // Items
 Template("practice.csv",            customTrial("practice"))
 Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
-
 
 // Post-experiment comment section
 newTrial("end",
