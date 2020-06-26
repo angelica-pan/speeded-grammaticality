@@ -1,18 +1,24 @@
 //
-// Speeded grammaticality judgment experiment with trial time out
+// Speeded grammaticality judgment experiment (with time out)
 //
 // Trial format:
-// 1. Rest screen (participant presses Spacebar to continue)
+// 1. Rest screen (participant presses the spacebar to continue)
 // 2. Stimulus RSVP 
 // 3a. Judgment (participant presses F or J to indicate judgment)
-// 3b. Trial time out (skips to next trial if participant does not provide judgment within time frame)
-		// Next trial begins immediately: lines 184-188 (comment out lines 189-197)
-		// ["tooSlow"] message prints before next trial begins: lines 189-197 (comment out lines 184-188)
+// 3b. Time out (skips to next section/trial if participant does not provide judgment within time frame)
+		// Version 1: ["tooSlow"] message prints before next section begins 
+			// i.e. print comprehension question if there is one
+		// Version 2: next trial begins immediately 
+			// i.e. skip comprehension question if there is one
+		// Version 3: ["tooSlow"] message prints before next trial begins 
+			// i.e. skip comprehension question if there is one)
 // 4. Comprehension question (participant presses F or J to answer comprehension question)
 // 5. Feedback (participant sees feedback and presses Spacebar to continue)
 // 6. Break trial (participant has opportunity to take longer break and sees comprehension question accuracy)
 //
 // Sections 4 and 5 only display when the source CSV has non-empty [question] and [feedback] values
+//
+// Remove section 3b (participants have as much time as they want to provide judgment) by commenting out lines
 
 // CSV must have the following column(s): [sentence]
 // CSV should have the following column(s): [question], [F_answer], [J_answer], [feedback] 
@@ -181,19 +187,16 @@ customTrial = label => variable => newTrial( label ,
     ,
     clear()
     ,
-//     getKey("judgment")
-//     	.test.pressed()
-//     	.success(newText(" ").print())
-//     	.failure(end())
-// 	,
 	getKey("judgment")
     	.test.pressed()
     	.success(newText(" ").print())
     	.failure(
     		getText("tooSlow").print(),
     		getText("next").print(),
-    		getKey("continue").wait(),
-    		end())
+    		getKey("continue").wait()
+    		,
+    		end()
+    		)
 	,
 	clear()
 	,
@@ -258,8 +261,6 @@ customTrial = label => variable => newTrial( label ,
 .log("item",                	variable.item)
 .log("correct_judgment",    	variable.correct_judgment)
 .log("correct_answer",    	    variable.correct_answer)
-.log("score",    	    		getVar("score"))
-.log("outOf",    	    		getVar("outOf"))
 
 // 6. Break trial
 	// Participant presses the spacebar to see comprehension question accuracy.
