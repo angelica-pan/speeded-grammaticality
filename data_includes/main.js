@@ -7,10 +7,13 @@
 // 3a. Judgment (participant presses F or J to indicate judgment)
 // 3b. Time out (skips to next section/trial if participant does not provide judgment within time frame)
 		// Version 1: ["tooSlow"] message prints before next section begins 
+			// Comment out lines 200-201
 			// i.e. print comprehension question if there is one
 		// Version 2: next trial begins immediately 
+			// Comment out lines 197-200
 			// i.e. skip comprehension question if there is one
 		// Version 3: ["tooSlow"] message prints before next trial begins 
+			// Don't comment out anything
 			// i.e. skip comprehension question if there is one)
 // 4. Comprehension question (participant presses F or J to answer comprehension question)
 // 5. Feedback (participant sees feedback and presses Spacebar to continue)
@@ -191,10 +194,10 @@ customTrial = label => variable => newTrial( label ,
     	.test.pressed()
     	.success(newText(" ").print())
     	.failure(
-    		getText("tooSlow").print(),
-    		getText("next").print(),
-    		getKey("continue").wait()
-    		,
+//     		getText("tooSlow").print(),
+//     		getText("next").print(),
+//     		getKey("continue").wait()
+//     		,			
     		end()
     		)
 	,
