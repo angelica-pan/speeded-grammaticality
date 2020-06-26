@@ -6,13 +6,11 @@
 // 2. Stimulus RSVP 
 // 3a. Judgment (participant presses F or J to indicate judgment)
 // 3b. Time out (skips to next section/trial if participant does not provide judgment within time frame)
-		// Version 0: no time out (participants have as much time as they want to provide judgment)
-			// Comment out lines 193-205
 		// Version 1: ["tooSlow"] message prints before next section begins 
-			// Comment out lines 201-202
+			// Comment out lines 199-200
 			// i.e. print comprehension question if there is one
 		// Version 2: next trial begins immediately 
-			// Comment out lines 198-201
+			// Comment out lines 196-199
 			// i.e. skip comprehension question even if there is one
 		// Version 3: ["tooSlow"] message prints before next trial begins 
 			// Don't comment out anything
@@ -190,19 +188,19 @@ customTrial = label => variable => newTrial( label ,
     	.cssContainer({"margin":"105px 0 0 0", "width":"600px"})
     ,
     clear()
-//     ,
-// 	getKey("judgment")
-//     	.test.pressed()
-//     	.success(newText(" ").print())
-//     	.failure(
-//     		getText("tooSlow").print(),
-//     		getText("next").print(),
-//     		getKey("continue").wait()
-//     		,			
-//     		end()
-//     		)
-// 	,
-// 	clear()
+    ,
+	getKey("judgment")
+    	.test.pressed()
+    	.success(newText(" ").print())
+    	.failure(
+    		getText("tooSlow").print(),
+    		getText("next").print(),
+    		getKey("continue").wait()
+    		,			
+    		end()
+    		)
+	,
+	clear()
 	,
 	// 4. Comprehension question 
     (variable.question?[
