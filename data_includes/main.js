@@ -195,14 +195,14 @@ customTrial = label => variable => newTrial( label ,
     clear()
     ,
    // Version 1: ["tooSlow"] message prints before next section begins 
-	getKey("judgment")
-    	.test.pressed()
-    	.success(newText(" ").print())
-    	.failure(
-    		getText("tooSlow").print(),
-    		getText("next").print(),
-    		getKey("continue").wait())
-    ,
+// 	getKey("judgment")
+//     	.test.pressed()
+//     	.success(newText(" ").print())
+//     	.failure(
+//     		getText("tooSlow").print(),
+//     		getText("next").print(),
+//     		getKey("continue").wait())
+//     ,
     // Version 2: next trial begins immediately 
 // 	getKey("judgment")
 //     	.test.pressed()
@@ -210,15 +210,15 @@ customTrial = label => variable => newTrial( label ,
 //     	.failure(end())
 //     ,
     // Version 3: ["tooSlow"] message prints before next trial begins 
-// 	getKey("judgment")
-//     	.test.pressed()
-//     	.success(newText(" ").print())
-//     	.failure(
-//     		getText("tooSlow").print(),
-//     		getText("next").print(),
-//     		getKey("continue").wait(),			
-//     		end())
-// 	,
+	getKey("judgment")
+    	.test.pressed()
+    	.success(newText(" ").print())
+    	.failure(
+    		getText("tooSlow").print(),
+    		getText("next").print(),
+    		getKey("continue").wait(),			
+    		end())
+	,
 	clear()
 	,
 	// E. Comprehension question 
