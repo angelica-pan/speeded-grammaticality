@@ -1,26 +1,32 @@
 //
-// Speeded grammaticality judgment experiment (with time out)
+// PCIbex_Speeded (RSVP speeded grammaticality judgment task with timeout)
 //
-// Trial format:
-// 1. Rest screen (participant presses the spacebar to continue)
-// 2. Stimulus RSVP 
-// 3a. Judgment (participant presses F or J to indicate judgment)
-// 3b. Time out (skips to next section/trial if participant does not provide judgment within time frame)
+
+// Experiment sequence:
+// 1. Welcome screen and experiment instructions
+// 2. Practice trials
+// 3. Post-practice screen
+// 4. Experimental trials
+// 5. Break trial with comprehension question accuracy -- displays every 5 experimental trials
+// 6. Comments and exit form
+// 7. Send results
+// 8. End of experiment confirmation
+
+// Experimental trial format:
+// A. Rest screen (participant presses the spacebar to continue)
+// B. Stimulus RSVP 
+// C. Judgment (participant presses F or J to indicate judgment)
+// D. Timeout
 		// Version 1: ["tooSlow"] message prints before next section begins 
-			// Comment out lines 199-200
 			// i.e. print comprehension question if there is one
 		// Version 2: next trial begins immediately 
-			// Comment out lines 196-199
 			// i.e. skip comprehension question even if there is one
 		// Version 3: ["tooSlow"] message prints before next trial begins 
-			// Don't comment out anything
 			// i.e. skip comprehension question even if there is one
-// 4. Comprehension question (participant presses F or J to answer comprehension question)
-// 5. Feedback (participant sees feedback and presses Spacebar to continue)
-// 6. Break trial (participant has opportunity to take longer break and sees comprehension question accuracy)
-//
-// Sections 4 and 5 only display when the source CSV has non-empty [question] and [feedback] values
+// E. Comprehension question (participant presses F or J to answer comprehension question)
+// F. Feedback (participant sees feedback and presses Spacebar to continue)
 
+// Sections 4 and 5 only display when the source CSV has non-empty [question] and [feedback] values
 
 // CSV must have the following column(s): [sentence]
 // CSV should have the following column(s): [question], [F_answer], [J_answer], [feedback] 
@@ -72,15 +78,13 @@ function SepWithN(sep, main, n) {
 }
 function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }
 
-// Test sequence
-// Sequence("practice")
 
 // Experimental sequence
 Sequence("welcome", "practice", "post-practice", sepWithN("break", rshuffle("test_vpe", "test_good-fillers", "test_bad-fillers"), 5), "end", "send", "confirmation")
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Welcome/instructions
+// 1. Welcome screen and instructions
 newTrial("welcome",
     newHtml("welcome", "welcome.html")
         .settings.cssContainer({"width": "720px"})
@@ -103,7 +107,7 @@ newTrial("welcome",
     customButton("Click here to continue")
 )
 
-// Post-practice items
+// 3. Post-practice screen
 newTrial("post-practice",
     newHtml("post-practice", "post-practice.html")
         .settings.cssContainer({"width": "600px"})
@@ -112,7 +116,7 @@ newTrial("post-practice",
     customButton("Click here to start the experiment")
 )
 
-// Trial template
+// 2. and 4. Trial items
 customTrial = label => variable => newTrial( label ,
 	// Create [score] and [outOf] variables and initialize to 0, if they do not already exist
 	newVar("score", 0).global()
@@ -123,7 +127,7 @@ customTrial = label => variable => newTrial( label ,
     defaultText
         .center()
     ,
-    // 1. Rest screen 
+    // A. Rest screen 
     	// Participant presses the spacebar to continue.
     newImage("fixation_cross", "fixation_cross.png")
         .size(300,300)
@@ -137,7 +141,7 @@ customTrial = label => variable => newTrial( label ,
     ,
     clear()
     ,
-    // 2. Stimulus RSVP
+    // B. Stimulus RSVP
     	// Prints value in source table's [sentence] column at 150%.
     	// margin: top=110px right=0px bottom=0px left=0px
     newController("dash", "DashedSentence", {s:variable.sentence, "mode":"speeded acceptability", "display":"in place", "wordTime":200})
@@ -147,7 +151,7 @@ customTrial = label => variable => newTrial( label ,
         .wait()
         .remove()
     ,
-    // 3a. Judgment
+    // C. Judgment
         // Prints ["placeholder"] at 150%. Below that, prints ["not_okay"] on the left and ["okay"] on the right.
     	// Participant presses F/J to make a judgment and continue. 
     newText("placeholder", "+++++++")
@@ -168,14 +172,15 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    newKey("judgment", "FJ")				
+
+    // D. Time out
+    	// Starts a [2000]ms timer that stops (a) when a valid "judgment" key is pressed, or (b) when it runs out.
+    	// Then, checks if a valid "judgment" key was pressed. If yes, print nothing (aka continue). If no, Version 1/2/3.
+	newKey("judgment", "FJ")				
     	.callback(getTimer("window").stop())
     	.log("all")							
     ,
-    // 3b. Trial time out
-    	// Starts a [2000]ms timer that stops (a) when a valid "judgment" key is pressed, or (b) when it runs out.
-    	// Then, checks if a valid "judgment" key was pressed. If yes, print nothing (aka continue). If no, end trial.
-	newTimer("window", 2000)
+    newTimer("window", 2000)
     	.log()
         .start()
         .wait("first")
@@ -189,20 +194,34 @@ customTrial = label => variable => newTrial( label ,
     ,
     clear()
     ,
+   // Version 1: ["tooSlow"] message prints before next section begins 
 	getKey("judgment")
     	.test.pressed()
     	.success(newText(" ").print())
     	.failure(
     		getText("tooSlow").print(),
     		getText("next").print(),
-    		getKey("continue").wait()
-    		,			
-    		end()
-    		)
-	,
+    		getKey("continue").wait())
+    ,
+    // Version 2: next trial begins immediately 
+// 	getKey("judgment")
+//     	.test.pressed()
+//     	.success(newText(" ").print())
+//     	.failure(end())
+//     ,
+    // Version 3: ["tooSlow"] message prints before next trial begins 
+// 	getKey("judgment")
+//     	.test.pressed()
+//     	.success(newText(" ").print())
+//     	.failure(
+//     		getText("tooSlow").print(),
+//     		getText("next").print(),
+//     		getKey("continue").wait(),			
+//     		end())
+// 	,
 	clear()
 	,
-	// 4. Comprehension question 
+	// E. Comprehension question 
     (variable.question?[
     newText("question", variable.question)
         .cssContainer({"width": "600px", "height": "50px", "font-size": "150%"})
@@ -227,7 +246,7 @@ customTrial = label => variable => newTrial( label ,
         .print()
         .log()
     ,
-    getKey("judgment")		// disable "judgment" Key so that any ["answer"] keypress is not incorrectly logged as ["judgment"]
+    getKey("judgment")		
     	.disable()
     ,
     newKey("answer", "FJ")
@@ -245,7 +264,7 @@ customTrial = label => variable => newTrial( label ,
     ]:null)
     ,
     clear()
-    // 5. Feedback 
+    // F. Feedback 
     ,
     (variable.feedback?[
     newText(variable.feedback)
@@ -264,7 +283,7 @@ customTrial = label => variable => newTrial( label ,
 .log("correct_judgment",    	variable.correct_judgment)
 .log("correct_answer",    	    variable.correct_answer)
 
-// 6. Break trial
+// 5. Break trial
 	// Participant presses the spacebar to see comprehension question accuracy.
 	// Comprehension question accuracy is displayed. 
 	// Participant presses the spacebar to continue to more experimental trials.				
@@ -316,7 +335,7 @@ Template("test_bad-fillers.csv",    customTrial("test_bad-fillers"))
 Template("test_good-fillers.csv",   customTrial("test_good-fillers"))
 Template("test_vpe.csv",            customTrial("test_vpe"))
 
-// Post-experiment comment section
+// 6. Comments and exit form
 newTrial("end",
 	newHtml("comments", "comments.html")
 		.log()
@@ -344,10 +363,10 @@ newTrial("end",
         )
 )
 
-// Send results
+// 7. Send results
 PennController.SendResults("send");
 
-// End-of-experiment confirmation
+// 8. End-of-experiment confirmation
 newTrial("confirmation",
     newText("Thank you for participating! You may now exit the window.")
         .center()
@@ -356,5 +375,4 @@ newTrial("confirmation",
     newButton("void")
         .wait()
 )
-
 
